@@ -1,0 +1,1709 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Hostel Hub — Hostel & Mess Portal</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600&display=swap');
+
+  :root{
+    --navy: #1B2430;
+    --navy-light: #2A3646;
+    --paper: #F7F3EC;
+    --paper-dim: #EDE7DA;
+    --mustard: #E3A008;
+    --mustard-dark: #B87F06;
+    --sage: #4E7C59;
+    --brick: #B24C3A;
+    --ink: #1B2430;
+    --ink-soft: #5B6472;
+    --line: rgba(27,36,48,0.12);
+    --surface: #FFFFFF;
+    --text-strong: var(--navy);
+    --chrome-text: #F7F3EC;
+  }
+  body.theme-dark{
+    --paper: #141A22;
+    --paper-dim: #1E2530;
+    --ink: #E7E4DD;
+    --ink-soft: #99A2AF;
+    --line: rgba(231,228,221,0.14);
+    --surface: #1C2430;
+    --text-strong: #F2EFE8;
+  }
+  body{ transition: background .25s ease; }
+  .theme-toggle-btn{ position: fixed; top:16px; right:16px; z-index:999; width:42px; height:42px; border-radius:50%; border:1px solid var(--line); background: var(--surface); color: var(--text-strong); font-size:1.05rem; cursor:pointer; display:flex; align-items:center; justify-content:center; box-shadow:0 6px 16px rgba(27,36,48,0.18); transition: transform .15s, background .2s, color .2s; }
+  .theme-toggle-btn:hover{ transform: scale(1.08); }
+  *{ box-sizing: border-box; margin:0; padding:0; }
+  html{ scroll-behavior: smooth; }
+  body{ font-family: 'Inter', sans-serif; background: radial-gradient(circle at 8% 8%, rgba(227,160,8,0.10), transparent 26%), radial-gradient(circle at 92% 18%, rgba(78,124,89,0.08), transparent 22%), var(--paper); color: var(--ink); min-height: 100vh; }
+  h1,h2,h3,.display{ font-family: 'Space Grotesk', sans-serif; color: var(--text-strong); letter-spacing: -0.01em; }
+  button{ font-family:'Inter',sans-serif; }
+  ::-webkit-scrollbar{ width:8px; height:8px; }
+  ::-webkit-scrollbar-thumb{ background: var(--line); border-radius:4px; }
+
+  /* ================= LANDING ================= */
+  #screen-landing{ min-height:100vh; display:flex; flex-direction:column; }
+  .land-nav{ display:flex; justify-content:space-between; align-items:center; padding: 22px 48px; }
+  .land-brand{ font-family:'Space Grotesk',sans-serif; font-weight:700; font-size:1.25rem; display:flex; align-items:center; gap:8px; color: var(--text-strong); letter-spacing:-0.02em; }
+  .land-brand .dot{ width:9px;height:9px;border-radius:50%;background:var(--mustard); box-shadow:0 0 0 5px rgba(227,160,8,0.14); }
+  .land-login-btn{ background: var(--navy); color: var(--chrome-text); border:none; padding: 10px 20px; border-radius: 8px; font-weight:600; font-size:0.87rem; cursor:pointer; box-shadow:0 8px 18px rgba(27,36,48,0.13); transition:transform .15s, box-shadow .15s; }
+  .land-login-btn:hover{ transform:translateY(-2px); box-shadow:0 12px 24px rgba(27,36,48,0.18); }
+  .land-hero{ flex:1; display:flex; align-items:center; justify-content:space-between; gap: 40px; padding: 20px 48px 60px; max-width: 1180px; margin: 0 auto; width:100%; }
+  .land-hero-text{ max-width: 480px; }
+  .land-eyebrow{ font-size:0.8rem; color: var(--mustard-dark); font-weight:600; margin-bottom: 14px; }
+  .land-hero-text h1{ font-size: 2.6rem; line-height:1.12; margin-bottom: 18px; }
+  .land-hero-text p{ font-size: 1rem; color: var(--ink-soft); line-height:1.6; margin-bottom: 26px; }
+  .land-cta-row{ display:flex; gap:12px; }
+  .btn-mustard{ background: var(--mustard); color: var(--navy); border:none; padding: 13px 24px; border-radius: 8px; font-weight:700; font-size:0.92rem; cursor:pointer; }
+  .btn-outline{ background:none; border: 1.5px solid var(--text-strong); color: var(--text-strong); padding: 13px 24px; border-radius: 8px; font-weight:600; font-size:0.92rem; cursor:pointer; }
+  .land-visual{ background: linear-gradient(145deg, var(--navy), #111925); border-radius: 18px; padding: 28px; width: 400px; flex-shrink:0; box-shadow:0 22px 45px rgba(27,36,48,0.18); }
+  .land-visual .mini-label{ font-size:0.72rem; color:rgba(247,243,236,0.5); margin-bottom:14px; }
+  .mini-card{ background: rgba(247,243,236,0.06); border:1px solid rgba(247,243,236,0.12); border-radius:10px; padding:14px 16px; margin-bottom:10px; display:flex; justify-content:space-between; align-items:center; transition:transform .15s, background .15s; }
+  .mini-card:hover{ transform:translateX(4px); background:rgba(247,243,236,0.1); }
+  .mini-card .t{ color: var(--chrome-text); font-size:0.87rem; font-weight:600; }
+  .mini-card .s{ color: rgba(247,243,236,0.5); font-size:0.75rem; }
+  .mini-tag{ background: var(--mustard); color:var(--navy); font-size:0.68rem; font-weight:700; padding:3px 9px; border-radius:12px; }
+  .land-strip{ display:flex; justify-content:center; gap: 56px; padding: 30px 20px 50px; border-top: 1px solid var(--line); }
+  .land-strip .item{ text-align:center; }
+  .land-strip .num{ font-family:'Space Grotesk',sans-serif; font-weight:700; font-size:1.5rem; color:var(--text-strong); }
+  .land-strip .lbl{ font-size:0.8rem; color:var(--ink-soft); margin-top:2px; }
+  @media (max-width: 860px){ .land-hero{ flex-direction:column; } .land-visual{ width:100%; } .land-hero-text h1{ font-size:2rem; } .land-strip{ gap: 30px; flex-wrap:wrap; } }
+
+  /* ================= LOGIN ================= */
+  #screen-login{
+    min-height:100vh; display:flex; align-items:center; justify-content:center; padding: 24px;
+    position:relative; overflow:hidden;
+    background:
+      radial-gradient(circle at 10% 12%, rgba(227,160,8,0.38), transparent 42%),
+      radial-gradient(circle at 90% 10%, rgba(78,124,89,0.32), transparent 40%),
+      radial-gradient(circle at 15% 90%, rgba(178,76,58,0.28), transparent 42%),
+      radial-gradient(circle at 88% 92%, rgba(27,36,48,0.22), transparent 42%),
+      var(--paper);
+  }
+  #screen-login::before, #screen-login::after{ content:''; position:absolute; border-radius:50%; filter: blur(70px); z-index:0; animation: floatBlob 9s ease-in-out infinite; }
+  #screen-login::before{ width:360px; height:360px; background: var(--mustard); opacity:0.4; top:-100px; left:-90px; }
+  #screen-login::after{ width:300px; height:300px; background: var(--sage); opacity:0.35; bottom:-90px; right:-70px; animation-delay: -4s; }
+  .login-blob{ position:absolute; border-radius:50%; filter: blur(70px); z-index:0; animation: floatBlob 11s ease-in-out infinite; animation-delay: -2s; }
+  .login-blob-3{ width:260px; height:260px; background: var(--brick); opacity:0.28; top:38%; right:6%; }
+  @keyframes floatBlob{ 0%,100%{ transform: translate(0,0) scale(1); } 50%{ transform: translate(18px,-14px) scale(1.06); } }
+  .login-box{ width: 400px; background:rgba(255,255,255,0.94); border:1px solid rgba(27,36,48,0.12); border-radius: 18px; padding: 34px 32px; box-shadow:0 24px 60px rgba(27,36,48,0.14); position:relative; overflow:hidden; z-index:1; }
+  .login-box::before{ content:''; position:absolute; top:0; left:0; right:0; height:5px; background: linear-gradient(90deg, var(--mustard), var(--brick), var(--sage), var(--navy)); }
+  .login-box .brand{ font-family:'Space Grotesk',sans-serif; font-weight:700; font-size:1.15rem; display:flex; align-items:center; gap:8px; margin-bottom: 6px; color:var(--mustard-dark); letter-spacing:-0.02em; }
+  .login-box .brand .dot{ width:8px;height:8px;border-radius:50%;background:var(--sage); box-shadow:0 0 0 4px rgba(78,124,89,0.14); animation: dotPulse 2.2s ease-in-out infinite; }
+  @keyframes dotPulse{ 0%,100%{ box-shadow:0 0 0 4px rgba(78,124,89,0.16); background: var(--sage); } 50%{ box-shadow:0 0 0 7px rgba(227,160,8,0.2); background: var(--mustard); } }
+  .login-box h2{ font-size:1.3rem; margin-bottom:18px; }
+  .tab-row{ display:flex; gap:18px; margin-bottom:20px; border-bottom:1px solid var(--line); }
+  .tab-item{ background:none; border:none; padding: 8px 0; font-size:0.87rem; font-weight:600; color: var(--ink-soft); cursor:pointer; border-bottom: 2px solid transparent; margin-bottom:-1px; transition: color .15s, border-color .15s; }
+  .tab-item.active{ color: var(--text-strong); border-bottom-color: var(--mustard); }
+  .role-toggle{ display:flex; gap:8px; margin-bottom:20px; background:var(--paper-dim); padding:4px; border-radius:9px; }
+  .role-btn{ flex:1; text-align:center; padding:9px 0; border-radius:7px; border:none; background:none; font-size:0.85rem; font-weight:600; color: var(--ink-soft); cursor:pointer; transition: background .15s, color .15s, box-shadow .15s; }
+  .role-btn.active{ background:var(--surface); color:var(--text-strong); box-shadow: 0 1px 3px rgba(0,0,0,0.08); }
+  .role-btn.active[data-role="student"]{ box-shadow: 0 1px 3px rgba(0,0,0,0.08), inset 0 -2px 0 var(--mustard); }
+  .role-btn.active[data-role="admin"]{ box-shadow: 0 1px 3px rgba(0,0,0,0.08), inset 0 -2px 0 var(--sage); }
+  .login-box .field{ margin-bottom:14px; }
+  .login-box .field label{ display:block; font-size:0.8rem; font-weight:600; color:var(--text-strong); margin-bottom:6px; }
+  .login-box .field input{ width:100%; border:1px solid var(--line); border-radius:8px; padding:11px 13px; font-size:0.9rem; background: var(--paper); transition: outline-color .15s, border-color .15s; }
+  .login-box .field input:focus{ outline:2px solid var(--mustard); outline-offset:1px; }
+  .login-box .field-row{ display:flex; gap:12px; }
+  .login-box .field-row .field{ flex:1; }
+  .login-err{ font-size:0.8rem; color: var(--brick); margin-bottom:12px; display:none; }
+  .login-box .btn-primary{ width:100%; padding:12px 0; font-size:0.92rem; margin-top:4px; background: linear-gradient(135deg, var(--navy), var(--navy-light)); transition: transform .15s, box-shadow .15s, background .2s; }
+  .login-box .btn-primary:hover{ background: linear-gradient(135deg, var(--mustard-dark), var(--mustard)); color: var(--navy); transform: translateY(-2px); box-shadow: 0 10px 22px rgba(227,160,8,0.28); }
+  .login-back{ text-align:center; margin-top:16px; font-size:0.82rem; color:var(--ink-soft); cursor:pointer; }
+  .login-back:hover{ color:var(--text-strong); }
+  body.theme-dark .login-box{ background: rgba(20,25,33,0.92); }
+  .forgot-link{ text-align:right; font-size:0.78rem; font-weight:600; color: var(--mustard-dark); cursor:pointer; margin-top:7px; }
+  .forgot-link:hover{ color: var(--brick); text-decoration: underline; }
+  .login-hint{ font-size:0.76rem; color:var(--ink-soft); background:var(--paper-dim); border-radius:8px; padding:10px 12px; margin-bottom:18px; line-height:1.4; }
+  .pw-field-wrap{ position:relative; }
+  .pw-field-wrap input{ padding-right:40px !important; }
+  .pw-eye-btn{ position:absolute; right:6px; top:50%; transform:translateY(-50%); background:none; border:none; cursor:pointer; font-size:1rem; line-height:1; padding:4px 6px; opacity:0.65; }
+  .pw-eye-btn:hover{ opacity:1; }
+
+  /* ================= APP SHELL ================= */
+  .shell{ display:none; min-height:100vh; }
+  .shell.active{ display:flex; }
+  .side{ width: 230px; flex-shrink:0; background: var(--navy); color: var(--chrome-text); padding: 24px 16px; display:flex; flex-direction:column; gap: 2px; overflow-y:auto; }
+  .brand{ font-family:'Space Grotesk', sans-serif; font-weight:700; font-size: 1.2rem; color: var(--chrome-text); margin-bottom: 2px; display:flex; align-items:center; gap:8px; }
+  .brand .dot{ width:9px; height:9px; border-radius:50%; background: var(--mustard); display:inline-block; }
+  .brand-sub{ font-size: 0.75rem; color: rgba(247,243,236,0.5); margin-bottom: 22px; }
+  .nav-item{ text-align:left; background:none; border:none; color: rgba(247,243,236,0.7); font-size: 0.87rem; font-weight:500; padding: 9px 11px; border-radius: 8px; cursor:pointer; display:flex; align-items:center; gap:9px; transition: background 0.15s, color 0.15s; width:100%; }
+  .nav-item:hover{ background: rgba(247,243,236,0.06); color: var(--chrome-text); }
+  .nav-item.active{ background: var(--paper); color: var(--text-strong); font-weight:600; }
+  .nav-item .ic{ font-size: 0.95rem; width:16px; text-align:center; }
+  .side-foot{ margin-top:auto; padding-top: 14px; border-top: 1px solid rgba(247,243,236,0.12); }
+  .side-user{ font-size: 0.75rem; color: rgba(247,243,236,0.45); line-height:1.5; margin-bottom:10px; }
+  .side-user strong{ color:rgba(247,243,236,0.8); display:block; }
+  .logout-btn{ width:100%; background:rgba(247,243,236,0.08); border:1px solid rgba(247,243,236,0.15); color: rgba(247,243,236,0.75); font-size:0.78rem; font-weight:600; padding:8px 0; border-radius:7px; cursor:pointer; }
+  .logout-btn:hover{ background:rgba(247,243,236,0.14); }
+
+  .main{ flex:1; padding: 30px 40px 60px; max-width: 1000px; }
+  .topline{ display:flex; justify-content:space-between; align-items:flex-end; margin-bottom: 26px; border-bottom: 1px solid var(--line); padding-bottom: 16px; }
+  .topline h1{ font-size: 1.5rem; font-weight:700; }
+  .topline .meta{ font-size:0.84rem; color: var(--ink-soft); margin-top:4px; }
+  .today-pill{ background: var(--navy); color: var(--chrome-text); font-size: 0.76rem; padding: 7px 14px; border-radius: 20px; font-weight:500; }
+
+  section.view{ display:none; }
+  section.view.active{ display:block; }
+
+  .hero{ background: var(--navy); color: var(--chrome-text); border-radius: 14px; padding: 26px 30px; display:flex; justify-content:space-between; align-items:center; gap: 24px; margin-bottom: 26px; }
+  .hero-left h2{ color: var(--chrome-text); font-size:1.4rem; margin-bottom:6px; }
+  .hero-left p{ color: rgba(247,243,236,0.65); font-size:0.9rem; max-width:420px; }
+  .hero-next{ text-align:center; background: rgba(247,243,236,0.08); border: 1px solid rgba(247,243,236,0.15); border-radius: 10px; padding: 14px 24px; }
+  .hero-next .label{ font-size:0.7rem; color: rgba(247,243,236,0.55); margin-bottom:4px; }
+  .hero-next .meal{ font-family:'Space Grotesk',sans-serif; font-weight:700; font-size:1.1rem; color: var(--mustard); }
+  .hero-next .time{ font-size:0.76rem; color: rgba(247,243,236,0.6); margin-top:2px; }
+
+  .stat-row{ display:flex; gap:14px; margin-bottom: 26px; flex-wrap:wrap; }
+  .stat{ flex:1; min-width:150px; background: var(--surface); border: 1px solid var(--line); border-radius: 12px; padding: 16px 18px; }
+  .stat .num{ font-family:'Space Grotesk',sans-serif; font-weight:700; font-size:1.6rem; color: var(--text-strong); }
+  .stat .lbl{ font-size:0.8rem; color: var(--ink-soft); margin-top:2px; }
+
+  .board{ background: var(--navy); border-radius: 14px; padding: 6px; margin-bottom: 20px; }
+  .day-tabs{ display:flex; overflow-x:auto; gap:4px; padding: 10px 10px 0; }
+  .day-tab{ background:none; border:none; color: rgba(247,243,236,0.55); font-weight:600; font-size: 0.8rem; padding: 9px 14px; border-radius: 8px 8px 0 0; cursor:pointer; white-space:nowrap; }
+  .day-tab.active{ background: var(--paper); color: var(--text-strong); }
+  .day-body{ background: var(--paper); border-radius: 0 10px 10px 10px; padding: 22px 26px; }
+  .meal-grid{ display:grid; grid-template-columns: repeat(4, 1fr); gap: 16px; }
+  .meal-block .h{ font-size: 0.72rem; font-weight:600; color: var(--mustard-dark); margin-bottom: 8px; padding-bottom:6px; border-bottom: 2px solid var(--mustard); display:inline-block; }
+  .meal-block ul{ list-style:none; }
+  .meal-block li{ font-size: 0.87rem; color: var(--ink); padding: 4px 0; line-height:1.4; }
+  .meal-block textarea{ width:100%; min-height:90px; border:1px solid var(--line); border-radius:6px; padding:8px; font-size:0.82rem; font-family:'Inter',sans-serif; background:var(--surface); color:var(--ink); }
+  @media (max-width: 760px){ .meal-grid{ grid-template-columns: repeat(2, 1fr); } }
+
+  .fb-card{ background:var(--surface); border:1px solid var(--line); border-radius: 12px; padding: 22px 24px; margin-bottom: 18px; }
+  .fb-card h3{ font-size:1.02rem; margin-bottom: 4px; }
+  .fb-card .sub{ font-size:0.85rem; color: var(--ink-soft); margin-bottom: 16px; }
+  .rate-row{ display:flex; gap:10px; margin-bottom: 6px; flex-wrap:wrap; }
+  .rate-btn{ border: 1px solid var(--line); background: var(--paper); border-radius: 8px; padding: 9px 16px; font-size: 0.85rem; font-weight:500; cursor:pointer; color: var(--ink); transition: all 0.12s; }
+  .rate-btn:hover{ border-color: var(--mustard); }
+  .rate-btn.chosen{ background: var(--mustard); border-color:var(--mustard); color: var(--navy); font-weight:700; }
+
+  .toggle-row{ display:flex; align-items:center; justify-content:space-between; padding: 13px 0; border-bottom: 1px solid var(--line); }
+  .toggle-row:last-child{ border-bottom:none; }
+  .toggle-row .name{ font-size:0.92rem; font-weight:500; }
+  .toggle-row .hint{ font-size:0.78rem; color:var(--ink-soft); }
+  .switch{ width: 42px; height:24px; background: var(--paper-dim); border: 1px solid var(--line); border-radius: 20px; position:relative; cursor:pointer; flex-shrink:0; }
+  .switch .knob{ width:18px; height:18px; background:#ffffff; border-radius:50%; position:absolute; top:2px; left:2px; box-shadow: 0 1px 2px rgba(0,0,0,0.2); transition: left 0.15s; }
+  .switch.on{ background: var(--sage); border-color: var(--sage); }
+  .switch.on .knob{ left: 20px; }
+
+  .form-card{ background:var(--surface); border:1px solid var(--line); border-radius: 12px; padding: 24px; margin-bottom: 24px; }
+  .field{ margin-bottom: 16px; }
+  .field label{ display:block; font-size: 0.8rem; font-weight:600; color: var(--text-strong); margin-bottom: 6px; }
+  .field input, .field select, .field textarea{ width:100%; border: 1px solid var(--line); border-radius: 8px; padding: 10px 12px; font-size: 0.9rem; background: var(--paper); color: var(--ink); font-family:'Inter',sans-serif; }
+  .field textarea{ resize:vertical; min-height:70px; }
+  .field input:focus, .field select:focus, .field textarea:focus{ outline: 2px solid var(--mustard); outline-offset: 1px; }
+  .field-row{ display:flex; gap:14px; }
+  .field-row .field{ flex:1; }
+
+  .btn-primary{ background: var(--navy); color: var(--chrome-text); border:none; border-radius: 8px; padding: 11px 22px; font-weight:600; font-size: 0.88rem; cursor:pointer; }
+  .btn-primary:hover{ background: var(--navy-light); }
+  .btn-danger{ background: none; border: 1px solid var(--brick); color: var(--brick); border-radius: 7px; padding: 7px 14px; font-weight:600; font-size:0.78rem; cursor:pointer; }
+  .btn-danger:hover{ background: rgba(178,76,58,0.08); }
+  .btn-small{ background: var(--paper-dim); border:1px solid var(--line); color: var(--text-strong); border-radius: 7px; padding: 7px 14px; font-weight:600; font-size:0.78rem; cursor:pointer; }
+  .btn-small:hover{ background: var(--paper); border-color: var(--mustard); }
+
+  .issue-list{ display:flex; flex-direction:column; gap:10px; }
+  .issue-item{ background:var(--surface); border:1px solid var(--line); border-left: 4px solid var(--mustard); border-radius: 8px; padding: 14px 18px; display:flex; justify-content:space-between; align-items:flex-start; gap: 14px; flex-wrap:wrap; }
+  .issue-item.resolved{ border-left-color: var(--sage); opacity:0.8; }
+  .issue-item .body{ flex:1; min-width:200px; }
+  .issue-item .cat{ font-size:0.72rem; font-weight:700; color: var(--mustard-dark); text-transform: uppercase; letter-spacing:0.03em; }
+  .issue-item .desc{ font-size:0.88rem; margin-top:4px; }
+  .issue-item .room{ font-size:0.78rem; color: var(--ink-soft); margin-top:4px; }
+  .issue-item .actions{ display:flex; align-items:center; gap:8px; }
+  .status-pill{ font-size: 0.72rem; font-weight:600; padding: 4px 10px; border-radius: 20px; background: var(--paper-dim); color: var(--ink-soft); white-space:nowrap; cursor:default; }
+  .status-pill.resolved{ background: rgba(78,124,89,0.15); color: var(--sage); }
+  .status-pill.paid{ background: rgba(78,124,89,0.15); color: var(--sage); }
+  .status-pill.pending{ background: rgba(178,76,58,0.12); color: var(--brick); }
+  .status-pill.clickable{ cursor:pointer; }
+  .empty{ font-size:0.87rem; color: var(--ink-soft); padding: 20px 0; text-align:center; }
+
+  .notice{ background:var(--surface); border:1px solid var(--line); border-radius: 10px; padding: 16px 20px; margin-bottom: 12px; display:flex; gap: 16px; }
+  .notice .date-chip{ background: var(--paper-dim); border-radius: 8px; padding: 8px 10px; text-align:center; flex-shrink:0; height: fit-content; min-width: 52px; }
+  .notice .date-chip .d{ font-family:'Space Grotesk',sans-serif; font-weight:700; font-size:1.1rem; color:var(--text-strong); }
+  .notice .date-chip .m{ font-size:0.68rem; color:var(--ink-soft); text-transform:uppercase; }
+  .notice .title{ font-size:0.93rem; font-weight:600; margin-bottom:2px; }
+  .notice .text{ font-size:0.85rem; color: var(--ink-soft); line-height:1.4; }
+
+  .admin-grid{ display:grid; grid-template-columns: 1fr 1fr; gap:18px; margin-bottom:24px; }
+  @media (max-width: 760px){ .admin-grid{ grid-template-columns:1fr; } }
+  .panel{ background:var(--surface); border:1px solid var(--line); border-radius:12px; padding: 20px 22px; margin-bottom:20px; }
+  .panel h3{ font-size:0.95rem; margin-bottom:14px; }
+  .bar-row{ margin-bottom: 12px; }
+  .bar-row .lbl{ display:flex; justify-content:space-between; font-size:0.82rem; margin-bottom:5px; }
+  .bar-track{ height:8px; background: var(--paper-dim); border-radius:6px; overflow:hidden; }
+  .bar-fill{ height:100%; background: var(--mustard); border-radius:6px; }
+
+  /* ---- Notifications ---- */
+  .notif-count{ background: var(--brick); color:#fff; font-size:0.68rem; font-weight:700; padding:1px 8px; border-radius:12px; margin-left:2px; }
+  .notif-list{ display:flex; flex-direction:column; gap:10px; margin-top: 6px; }
+  .notif-item{ display:flex; gap:12px; align-items:flex-start; background: var(--paper-dim); border-radius:10px; padding: 12px 14px; border-left: 4px solid var(--mustard); }
+  .notif-item.type-leave{ border-left-color: var(--sage); }
+  .notif-item.type-cleaning{ border-left-color: var(--brick); }
+  .notif-item.type-mentor{ border-left-color: var(--navy); }
+  .notif-item .ic{ font-size:1.15rem; flex-shrink:0; line-height:1.3; }
+  .notif-item .txt{ flex:1; }
+  .notif-item .t{ font-size:0.87rem; font-weight:600; color: var(--text-strong); }
+  .notif-item .s{ font-size:0.78rem; color: var(--ink-soft); margin-top:2px; }
+  .notif-item .when{ font-size:0.72rem; color: var(--mustard-dark); font-weight:600; white-space:nowrap; }
+
+  /* ---- Food wastage ---- */
+  .wastage-summary{ display:flex; gap:14px; margin-bottom:22px; flex-wrap:wrap; }
+  .wastage-chart-wrap{ overflow-x:auto; }
+  .wastage-chart-wrap svg{ display:block; }
+  .wastage-bar{ transition: opacity .15s; }
+  .wastage-bar:hover{ opacity:0.78; }
+  .wastage-legend{ display:flex; gap:18px; flex-wrap:wrap; margin-top:10px; font-size:0.78rem; color: var(--ink-soft); }
+  .wastage-legend span{ display:inline-flex; align-items:center; gap:6px; }
+  .wastage-legend .sw{ width:10px; height:10px; border-radius:3px; display:inline-block; }
+  .wastage-tip{ background: var(--paper-dim); border-radius:10px; padding:14px 16px; font-size:0.85rem; color: var(--ink-soft); line-height:1.5; margin-top:18px; }
+
+  /* ---- Hostels & Rooms ---- */
+  .hostel-grid{ display:grid; grid-template-columns: repeat(auto-fill, minmax(230px,1fr)); gap:16px; margin-bottom:26px; }
+  .hostel-card{ background:var(--surface); border:1.5px solid var(--line); border-radius:12px; padding:18px 20px; cursor:pointer; transition: border-color .15s; }
+  .hostel-card:hover{ border-color: var(--mustard); }
+  .hostel-card.active{ border-color: var(--navy); background: var(--navy); }
+  .hostel-card.active .hname, .hostel-card.active .htype{ color: var(--chrome-text); }
+  .hostel-card.active .havail{ color: var(--mustard); }
+  .hostel-card .hname{ font-weight:700; font-size:1rem; color:var(--text-strong); margin-bottom:4px; }
+  .hostel-card .htype{ font-size:0.78rem; color:var(--ink-soft); margin-bottom:10px; }
+  .hostel-card .havail{ font-size:0.82rem; font-weight:600; color: var(--sage); }
+
+  .room-grid{ display:grid; grid-template-columns: repeat(auto-fill, minmax(210px,1fr)); gap:14px; }
+  .room-card{ background:var(--surface); border:1px solid var(--line); border-radius:10px; padding:14px 16px; }
+  .room-card .rtop{ display:flex; justify-content:space-between; align-items:center; margin-bottom:8px; }
+  .room-card .rno{ font-weight:700; font-size:0.95rem; }
+  .room-card .rtype{ font-size:0.78rem; color:var(--ink-soft); margin-bottom:8px; }
+  .tag-row{ display:flex; flex-wrap:wrap; gap:5px; }
+  .facility-tag{ font-size:0.7rem; background: var(--paper-dim); color: var(--ink-soft); padding:3px 8px; border-radius:10px; }
+
+  /* ---- Fee ---- */
+  .fee-card{ background:var(--surface); border:1px solid var(--line); border-radius:12px; padding:22px 24px; margin-bottom:16px; display:flex; justify-content:space-between; align-items:center; gap:16px; flex-wrap:wrap; }
+  .fee-card .ftitle{ font-size:1rem; font-weight:700; margin-bottom:4px; }
+  .fee-card .fmeta{ font-size:0.82rem; color:var(--ink-soft); }
+  .fee-card .famount{ font-family:'Space Grotesk',sans-serif; font-weight:700; font-size:1.3rem; color:var(--text-strong); }
+
+  /* ---- Table rows (students/fees) ---- */
+  .table-wrap{ background:var(--surface); border:1px solid var(--line); border-radius:12px; overflow-x:auto; box-shadow:0 8px 22px rgba(27,36,48,0.04); }
+  .table-row{ display:flex; align-items:center; gap:14px; padding:13px 20px; border-bottom:1px solid var(--line); }
+  .table-row:last-child{ border-bottom:none; }
+  .table-row.head{ background: var(--paper-dim); font-size:0.75rem; font-weight:700; color:var(--ink-soft); text-transform:uppercase; letter-spacing:0.03em; padding:11px 20px; }
+  .table-row .c1{ flex:1.4; font-weight:600; font-size:0.88rem; }
+  .table-row .c2{ flex:1; font-size:0.85rem; color:var(--ink-soft); }
+  .table-row .c3{ flex:1; font-size:0.85rem; color:var(--ink-soft); }
+  .table-row .c4{ flex:1; display:flex; justify-content:flex-end; gap:8px; }
+  #studentTable .table-row{ min-width:760px; }
+  #studentTable .table-row:not(.head){ min-height:72px; }
+  .student-cell{ display:flex; align-items:center; gap:10px; }
+  .student-avatar{ width:34px; height:34px; border-radius:50%; background:linear-gradient(135deg,var(--mustard),#f4c95d); color:var(--navy); display:flex; align-items:center; justify-content:center; font-family:'Space Grotesk',sans-serif; font-weight:700; flex-shrink:0; }
+  .student-name{ font-weight:700; color:var(--text-strong); }
+  .student-meta{ margin-top:3px; font-size:0.72rem; color:var(--ink-soft); font-weight:400; }
+  .student-contact{ display:block; margin-top:3px; font-size:0.72rem; color:var(--ink-soft); }
+  .student-summary{ display:flex; justify-content:space-between; align-items:center; gap:12px; margin:-8px 0 14px; color:var(--ink-soft); font-size:0.82rem; }
+  .student-summary strong{ color:var(--text-strong); }
+  .table-wrap::-webkit-scrollbar{ height:6px; }
+
+  /* ---- Reviews ---- */
+  .review-item{ background:var(--surface); border:1px solid var(--line); border-radius:10px; padding:16px 20px; margin-bottom:10px; }
+  .review-item .rtop{ display:flex; justify-content:space-between; align-items:center; margin-bottom:6px; }
+  .review-item .rname{ font-weight:600; font-size:0.9rem; }
+  .review-item .stars{ color: var(--mustard); font-size:0.85rem; }
+  .review-item .rtext{ font-size:0.85rem; color:var(--ink-soft); }
+
+  /* ---- Profile ---- */
+  .profile-header{ display:flex; align-items:center; gap:16px; margin-bottom:24px; }
+  .avatar{ width:56px; height:56px; border-radius:50%; background: var(--mustard); color:var(--navy); display:flex; align-items:center; justify-content:center; font-weight:700; font-size:1.3rem; font-family:'Space Grotesk',sans-serif; flex-shrink:0; overflow:hidden; }
+  .avatar img{ width:100%; height:100%; object-fit:cover; border-radius:50%; }
+
+  /* ---- Avatar upload (profile photo) ---- */
+  .avatar-wrap{ position:relative; flex-shrink:0; display:inline-block; }
+  .avatar-wrap .avatar{ cursor:pointer; }
+  .avatar-edit{ position:absolute; bottom:-2px; right:-2px; width:22px; height:22px; border-radius:50%; background: var(--mustard); color:var(--navy); border:2px solid white; display:flex; align-items:center; justify-content:center; font-size:11px; cursor:pointer; }
+  .avatar-wrap.lg .avatar{ width:72px; height:72px; font-size:1.6rem; }
+  .avatar-wrap.sm .avatar{ width:38px; height:38px; font-size:0.95rem; }
+  .avatar-wrap.sm .avatar-edit{ width:17px; height:17px; font-size:9px; bottom:-2px; right:-2px; }
+  .side-avatar-row{ display:flex; align-items:center; gap:10px; margin-bottom:12px; }
+  .side-avatar-row .side-user{ margin-bottom:0; }
+  .avatar-hint{ font-size:0.76rem; color:var(--ink-soft); margin-top:2px; }
+
+  @media (max-width: 560px){ .land-nav{ padding:18px 20px; } .land-hero{ padding:18px 20px 42px; } .land-hero-text h1{ font-size:1.85rem; } .land-cta-row{ flex-direction:column; } .land-cta-row button{ width:100%; } .login-box{ width:100%; padding:28px 22px; } .field-row{ flex-direction:column; gap:0; } .land-strip{ padding-bottom:30px; } }
+</style>
+</head>
+<body>
+
+<button id="themeToggleBtn" class="theme-toggle-btn" onclick="toggleTheme()" title="Toggle light / dark theme">🌙</button>
+
+<!-- ================= LANDING ================= -->
+<div id="screen-landing">
+  <div class="land-nav">
+    <div class="land-brand"><span class="dot"></span>Hostel Hub</div>
+    <button class="land-login-btn" onclick="goTo('login')">Login</button>
+  </div>
+  <div class="land-hero">
+    <div class="land-hero-text">
+      <div class="land-eyebrow">HOSTEL & MESS SERVICES</div>
+      <h1>Less waste in the mess. Faster fixes in the hostel.</h1>
+      <p>One portal for students to pick a hostel room, check the mess menu, skip meals they won't eat, rate food, and report issues — with a full dashboard for the warden and mess committee.</p>
+      <div class="land-cta-row">
+        <button class="btn-mustard" onclick="goTo('login'); setRole('student');">Student Login</button>
+        <button class="btn-outline" onclick="goTo('login'); setRole('admin');">Admin Login</button>
+      </div>
+    </div>
+    <div class="land-visual">
+      <div class="mini-label">TODAY IN YOUR HOSTEL</div>
+      <div class="mini-card"><div><div class="t">Dinner — 8:00 PM</div><div class="s">Rajma, Rice, Roti</div></div><span class="mini-tag">142 in</span></div>
+      <div class="mini-card"><div><div class="t">Wi-Fi issue, Block C</div><div class="s">Reported 2 hrs ago</div></div><span class="mini-tag">Open</span></div>
+      <div class="mini-card"><div><div class="t">Today's mess rating</div><div class="s">Based on 96 responses</div></div><span class="mini-tag">4.2★</span></div>
+    </div>
+  </div>
+  <div class="land-strip">
+    <div class="item"><div class="num">180+</div><div class="lbl">Students onboard</div></div>
+    <div class="item"><div class="num">~22%</div><div class="lbl">Avg. meal wastage cut</div></div>
+    <div class="item"><div class="num">24 hrs</div><div class="lbl">Avg. issue resolution</div></div>
+  </div>
+</div>
+
+<!-- ================= LOGIN / SIGNUP ================= -->
+<div id="screen-login" style="display:none;">
+  <div class="login-blob login-blob-3"></div>
+  <div class="login-box">
+    <div class="brand"><span class="dot"></span>Hostel Hub</div>
+
+    <div id="loginMainBox">
+      <div class="tab-row">
+        <button class="tab-item active" data-tab="login" onclick="setAuthTab('login')">Login</button>
+        <button class="tab-item" data-tab="signup" onclick="setAuthTab('signup')">Sign up</button>
+      </div>
+
+      <div class="role-toggle">
+        <button class="role-btn active" data-role="student" onclick="setRole('student')">Student</button>
+        <button class="role-btn" data-role="admin" onclick="setRole('admin')">Admin / Warden</button>
+      </div>
+
+      <div class="login-hint" id="loginHint">Use any name and room number — this is a demo login, no real account needed.</div>
+
+      <div class="field"><label id="labelName">Full name</label><input type="text" id="loginName"></div>
+      <div class="field-row" id="signupExtra" style="display:none;">
+        <div class="field"><label>Email</label><input type="text" id="loginEmail" placeholder="you@college.edu"></div>
+        <div class="field"><label>Phone</label><input type="text" id="loginPhone" placeholder="98765 43210"></div>
+      </div>
+      <div class="field" id="roomField"><label>Room number</label><input type="text" id="loginRoom"></div>
+      <div class="field">
+        <label>Password</label>
+        <div class="pw-field-wrap">
+          <input type="password" id="loginPassword">
+          <button type="button" class="pw-eye-btn" id="loginPasswordEye" onclick="togglePasswordVisibility('loginPassword','loginPasswordEye')" title="Show password">👁️</button>
+        </div>
+        <div class="forgot-link" id="forgotLink" onclick="showForgotPassword()">Forgot password?</div>
+      </div>
+      <div class="field" id="confirmPasswordField" style="display:none;">
+        <label>Confirm password</label>
+        <div class="pw-field-wrap">
+          <input type="password" id="loginConfirmPassword">
+          <button type="button" class="pw-eye-btn" id="loginConfirmPasswordEye" onclick="togglePasswordVisibility('loginConfirmPassword','loginConfirmPasswordEye')" title="Show password">👁️</button>
+        </div>
+      </div>
+      <div class="login-err" id="loginErr">Please fill in the required fields to continue.</div>
+
+      <button class="btn-primary" id="authSubmitBtn" onclick="doLogin()">Log in</button>
+      <div class="login-back" onclick="goTo('landing')">← Back to home</div>
+    </div>
+
+    <div id="forgotPasswordBox" style="display:none;">
+      <h2 style="font-size:1.15rem; margin-bottom:6px;">Reset your password</h2>
+      <div class="login-hint">Enter the email linked to your account — we'll send a reset link (demo only, no real email is sent).</div>
+      <div class="field"><label>Email</label><input type="text" id="forgotEmail" placeholder="you@college.edu"></div>
+      <div class="login-err" id="forgotErr" style="display:none;">Please enter a valid email address.</div>
+      <div class="empty" id="forgotSent" style="display:none; text-align:left; padding:0 0 10px;">✅ Reset link sent — check your inbox (demo).</div>
+      <button class="btn-primary" onclick="sendResetLink()">Send reset link</button>
+      <div class="login-back" onclick="hideForgotPassword()">← Back to login</div>
+    </div>
+  </div>
+</div>
+
+<!-- ================= APP SHELL ================= -->
+<div class="shell" id="appShell">
+  <aside class="side">
+    <div class="brand"><span class="dot"></span>Hostel Hub</div>
+    <div class="brand-sub">Smart Hostel Management</div>
+
+    <div id="studentNav">
+      <button class="nav-item active" data-view="home"><span class="ic">⌂</span>Dashboard</button>
+      <button class="nav-item" data-view="hostels"><span class="ic">🏠</span>Hostels & Rooms</button>
+      <button class="nav-item" data-view="menu"><span class="ic">🍛</span>Mess Menu & Rating</button>
+      <button class="nav-item" data-view="wastage"><span class="ic">🥗</span>Food Wastage</button>
+      <button class="nav-item" data-view="issue"><span class="ic">📝</span>Complaint / Feedback</button>
+      <button class="nav-item" data-view="tracking"><span class="ic">🎫</span>My Complaints</button>
+      <button class="nav-item" data-view="fees"><span class="ic">💳</span>Fee Status</button>
+      <button class="nav-item" data-view="laundry"><span class="ic">🧺</span>Laundry</button>
+      <button class="nav-item" data-view="events"><span class="ic">🎉</span>Events</button>
+      <button class="nav-item" data-view="leave"><span class="ic">🎒</span>Leave Application</button>
+      <button class="nav-item" data-view="notices"><span class="ic">📢</span>Notices</button>
+      <button class="nav-item" data-view="profile"><span class="ic">👤</span>Profile</button>
+      <button class="nav-item" data-view="password"><span class="ic">🔒</span>Change Password</button>
+    </div>
+
+    <div id="adminNav" style="display:none;">
+      <button class="nav-item active" data-view="admin"><span class="ic">📊</span>Dashboard</button>
+      <button class="nav-item" data-view="adminStudents"><span class="ic">🎓</span>Students</button>
+      <button class="nav-item" data-view="adminRooms"><span class="ic">🛏️</span>Rooms</button>
+      <button class="nav-item" data-view="menu"><span class="ic">🍛</span>Mess Menu Update</button>
+      <button class="nav-item" data-view="wastage"><span class="ic">🥗</span>Food Wastage</button>
+      <button class="nav-item" data-view="adminComplaints"><span class="ic">📋</span>Complaints</button>
+      <button class="nav-item" data-view="adminFees"><span class="ic">💳</span>Fee Records</button>
+      <button class="nav-item" data-view="adminLaundry"><span class="ic">🧺</span>Laundry</button>
+      <button class="nav-item" data-view="events"><span class="ic">🎉</span>Events</button>
+      <button class="nav-item" data-view="adminLeave"><span class="ic">🎒</span>Leave Requests</button>
+      <button class="nav-item" data-view="notices"><span class="ic">📢</span>Notices Publish</button>
+      <button class="nav-item" data-view="adminReviews"><span class="ic">⭐</span>Reviews</button>
+      <button class="nav-item" data-view="password"><span class="ic">🔒</span>Change Password</button>
+    </div>
+
+    <div class="side-foot">
+      <div class="side-avatar-row">
+        <div class="avatar-wrap sm">
+          <div class="avatar avatar-target" id="sideAvatar" onclick="triggerPhotoUpload()">S</div>
+          <div class="avatar-edit" onclick="triggerPhotoUpload()">📷</div>
+        </div>
+        <div class="side-user">Logged in as<br><strong id="sideUserName">—</strong></div>
+      </div>
+      <button class="logout-btn" onclick="doLogout()">Log out</button>
+    </div>
+  </aside>
+  <input type="file" id="photoInput" accept="image/*" style="display:none" onchange="handlePhotoUpload(event)">
+
+  <main class="main">
+
+    <!-- STUDENT DASHBOARD -->
+    <section class="view active" id="view-home">
+      <div class="topline">
+        <div><h1 id="homeGreet">Good to see you 👋</h1><div class="meta">Here's what's happening around the hostel today</div></div>
+        <div class="today-pill" id="todayPill">Thursday, 10 Sept</div>
+      </div>
+      <div class="hero">
+        <div class="hero-left">
+          <h2>Reduce food waste, one opt-out at a time</h2>
+          <p>Skip a meal you won't eat and the kitchen adjusts how much they cook — less waste, better food for everyone else.</p>
+        </div>
+        <div class="hero-next"><div class="label" id="nextMealLabel">Next meal</div><div class="meal" id="nextMealName">Dinner</div><div class="time" id="nextMealTime">8:00 PM – 9:30 PM</div></div>
+      </div>
+      <div class="stat-row">
+        <div class="stat"><div class="num" id="statOptouts">3</div><div class="lbl">Meals opted out this week</div></div>
+        <div class="stat"><div class="num" id="statIssues">2</div><div class="lbl">Your open issues</div></div>
+        <div class="stat"><div class="num">4.2★</div><div class="lbl">Today's mess rating</div></div>
+        <div class="stat"><div class="num" id="statFee">Pending</div><div class="lbl">Fee status</div></div>
+      </div>
+      <div class="panel" id="notifPanel">
+        <h3 style="display:flex; align-items:center; gap:8px;">🔔 Notifications <span class="notif-count" id="notifCount">0</span></h3>
+        <div class="notif-list" id="notifList"></div>
+      </div>
+      <div class="panel">
+        <h3>Latest notice</h3>
+        <div class="notice" style="border:none; padding:0; margin:0;">
+          <div class="date-chip"><div class="d">10</div><div class="m">Sep</div></div>
+          <div><div class="title">Water tanker delayed today</div><div class="text">Water supply to Block C will resume by 6 PM. Stored water is available near the ground floor common room.</div></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- HOSTELS & ROOMS -->
+    <section class="view" id="view-hostels">
+      <div class="topline"><div><h1>Hostels & Rooms</h1><div class="meta">Browse hostels, check room availability and facilities</div></div></div>
+      <div class="hostel-grid" id="hostelGrid"></div>
+      <h3 style="font-size:1rem; margin-bottom:14px;" id="roomsHeading">Rooms in Block A</h3>
+      <div class="room-grid" id="roomGrid"></div>
+    </section>
+
+    <!-- MENU + RATING (student) / MENU UPDATE (admin) -->
+    <section class="view" id="view-menu">
+      <div class="topline">
+        <div><h1 id="menuTitle">This Week's Mess Menu</h1><div class="meta" id="menuSub">Updated by the mess committee every Sunday</div></div>
+      </div>
+      <div class="board">
+        <div class="day-tabs" id="dayTabs"></div>
+        <div class="day-body" id="dayBody"></div>
+      </div>
+      <button class="btn-primary" id="saveMenuBtn" style="display:none; margin-bottom:20px;" onclick="saveMenuEdits()">Save menu changes</button>
+
+      <div class="fb-card" id="ratingCard">
+        <h3>Rate today's lunch</h3>
+        <div class="sub">Your feedback goes straight to the mess committee dashboard</div>
+        <div class="rate-row" id="rateRow">
+          <button class="rate-btn" data-rate="1">😞 Poor</button>
+          <button class="rate-btn" data-rate="2">😐 Okay</button>
+          <button class="rate-btn" data-rate="3">🙂 Good</button>
+          <button class="rate-btn" data-rate="4">😄 Great</button>
+        </div>
+      </div>
+      <div class="fb-card" id="optoutCard">
+        <h3>Opt out of upcoming meals</h3>
+        <div class="sub">Toggle off any meal you won't be attending — do this before 9 PM the night before</div>
+        <div class="toggle-row"><div><div class="name">Tomorrow — Breakfast</div><div class="hint">7:30–9:00 AM</div></div><div class="switch" data-meal="bf"><div class="knob"></div></div></div>
+        <div class="toggle-row"><div><div class="name">Tomorrow — Lunch</div><div class="hint">12:30–2:00 PM</div></div><div class="switch on" data-meal="ln"><div class="knob"></div></div></div>
+        <div class="toggle-row"><div><div class="name">Tomorrow — Dinner</div><div class="hint">8:00–9:30 PM</div></div><div class="switch" data-meal="dn"><div class="knob"></div></div></div>
+      </div>
+    </section>
+
+    <!-- MESS FOOD WASTAGE -->
+    <section class="view" id="view-wastage">
+      <div class="topline">
+        <div><h1>Mess Food Wastage</h1><div class="meta" id="wastageSub">How much food is being wasted, and where it's improving</div></div>
+      </div>
+
+      <div class="wastage-summary">
+        <div class="stat"><div class="num" id="wastageWeekTotal">—</div><div class="lbl">Kg wasted this week</div></div>
+        <div class="stat"><div class="num" id="wastageAvgDay">—</div><div class="lbl">Avg. kg wasted / day</div></div>
+        <div class="stat"><div class="num" id="wastageTrend">—</div><div class="lbl">Vs. last week</div></div>
+        <div class="stat"><div class="num" id="wastageCost">—</div><div class="lbl">Est. cost of wasted food</div></div>
+      </div>
+
+      <div class="panel">
+        <h3>Daily food wastage (kg) — this week</h3>
+        <div class="wastage-chart-wrap" id="wastageChart"></div>
+        <div class="wastage-legend">
+          <span><i class="sw" style="background:var(--mustard);"></i>Within target</span>
+          <span><i class="sw" style="background:var(--brick);"></i>Above target</span>
+        </div>
+      </div>
+
+      <div class="panel">
+        <h3>Wastage by meal (today)</h3>
+        <div id="wastageByMeal"></div>
+      </div>
+
+      <div class="wastage-tip" id="wastageTip">
+        💡 Tip: Opting out of meals you'll miss (see <strong>Mess Menu &amp; Rating</strong>) is the single biggest lever for cutting mess food wastage — every skipped plate means less is cooked the next day.
+      </div>
+    </section>
+
+    <!-- COMPLAINT / FEEDBACK FORM -->
+    <section class="view" id="view-issue">
+      <div class="topline"><div><h1>Complaint / Feedback</h1><div class="meta">Plumbing, electrical, wifi, cleanliness, or mess feedback — routed straight to the warden</div></div></div>
+      <div class="form-card">
+        <div class="field-row">
+          <div class="field"><label>Room number</label><input type="text" id="issueRoom" placeholder="e.g. 214-C"></div>
+          <div class="field"><label>Category</label>
+            <select id="issueCat"><option>Plumbing</option><option>Electrical</option><option>Wi-Fi / Internet</option><option>Cleanliness</option><option>Furniture</option><option>Mess Feedback</option><option>Other</option></select>
+          </div>
+        </div>
+        <div class="field"><label>Describe the issue</label><textarea id="issueDesc" placeholder="What's wrong, and since when?"></textarea></div>
+        <button class="btn-primary" id="submitIssue">Submit</button>
+      </div>
+      <div class="empty" id="submitConfirm" style="display:none; text-align:left; padding:0 0 8px;">✅ Submitted — track its status under <strong>My Complaints</strong>.</div>
+    </section>
+
+    <!-- MY COMPLAINTS -->
+    <section class="view" id="view-tracking">
+      <div class="topline"><div><h1>My Complaints</h1><div class="meta">Track the status of everything you've reported</div></div></div>
+      <div class="issue-list" id="issueList"></div>
+    </section>
+
+    <!-- FEE STATUS (student) -->
+    <section class="view" id="view-fees">
+      <div class="topline"><div><h1>Fee Status</h1><div class="meta">Your hostel and mess fee for this semester</div></div></div>
+      <div id="feeCardsWrap"></div>
+    </section>
+
+    <!-- LAUNDRY (student) -->
+    <section class="view" id="view-laundry">
+      <div class="topline"><div><h1>Laundry</h1><div class="meta">Book a laundry slot — first come, first served</div></div></div>
+      <div class="room-grid" id="laundrySlotGrid" style="margin-bottom:26px;"></div>
+      <h3 style="font-size:1rem; margin-bottom:14px;">My bookings</h3>
+      <div class="issue-list" id="myLaundryList"></div>
+    </section>
+
+    <!-- EVENTS (student RSVP / admin publish) -->
+    <section class="view" id="view-events">
+      <div class="topline">
+        <div><h1 id="eventsTitle">Hostel Events</h1><div class="meta" id="eventsSub">Upcoming events around the hostel</div></div>
+      </div>
+      <div class="form-card" id="eventPublishCard" style="display:none;">
+        <div class="field-row">
+          <div class="field"><label>Date</label><input type="text" id="eventDateInput" placeholder="e.g. 20 Sep"></div>
+          <div class="field"><label>Title</label><input type="text" id="eventTitleInput" placeholder="e.g. Cultural Night"></div>
+        </div>
+        <div class="field"><label>Details</label><textarea id="eventTextInput" placeholder="What, where, when"></textarea></div>
+        <button class="btn-primary" onclick="publishEvent()">Publish event</button>
+      </div>
+      <div id="eventList"></div>
+    </section>
+
+    <!-- HOSTEL LEAVE APPLICATION (student) -->
+    <section class="view" id="view-leave">
+      <div class="topline"><div><h1>Hostel Leave Application</h1><div class="meta">Apply for leave — the warden will approve or reject it</div></div></div>
+      <div class="form-card">
+        <div class="field-row">
+          <div class="field"><label>From date</label><input type="date" id="leaveFrom"></div>
+          <div class="field"><label>To date</label><input type="date" id="leaveTo"></div>
+        </div>
+        <div class="field"><label>Reason / destination</label><textarea id="leaveReason" placeholder="Where you're going and why"></textarea></div>
+        <button class="btn-primary" id="submitLeave">Submit application</button>
+      </div>
+      <div class="empty" id="leaveConfirm" style="display:none; text-align:left; padding:0 0 8px;">✅ Submitted — track its status below.</div>
+      <h3 style="font-size:1rem; margin-bottom:14px;">My leave applications</h3>
+      <div class="issue-list" id="myLeaveList"></div>
+    </section>
+
+    <!-- CHANGE PASSWORD (student & admin) -->
+    <section class="view" id="view-password">
+      <div class="topline"><div><h1>Change Password</h1><div class="meta">Update the password for your account</div></div></div>
+      <div class="form-card" style="max-width:440px;">
+        <div class="field"><label>Current password</label><input type="password" id="pwCurrent" placeholder="Enter current password"></div>
+        <div class="field"><label>New password</label><input type="password" id="pwNew" placeholder="Enter new password"></div>
+        <div class="field"><label>Confirm new password</label><input type="password" id="pwConfirm" placeholder="Re-enter new password"></div>
+        <div class="login-err" id="pwErr" style="display:none;">Please check the fields and try again.</div>
+        <button class="btn-primary" onclick="changePassword()">Update password</button>
+        <span class="empty" id="pwSaved" style="display:none; padding:0 0 0 14px;">✅ Password updated</span>
+      </div>
+    </section>
+
+    <!-- NOTICES (student view / admin publish) -->
+    <section class="view" id="view-notices">
+      <div class="topline"><div><h1 id="noticesTitle">Notice Board</h1><div class="meta" id="noticesSub">Announcements from the warden and mess committee</div></div></div>
+      <div class="form-card" id="noticePublishCard" style="display:none;">
+        <div class="field"><label>Title</label><input type="text" id="noticeTitleInput" placeholder="e.g. Mess closed for maintenance"></div>
+        <div class="field"><label>Details</label><textarea id="noticeTextInput" placeholder="Add details for students"></textarea></div>
+        <button class="btn-primary" onclick="publishNotice()">Publish notice</button>
+      </div>
+      <div id="noticeList"></div>
+    </section>
+
+    <!-- PROFILE (student) -->
+    <section class="view" id="view-profile">
+      <div class="topline"><div><h1>Profile</h1><div class="meta">Your personal and hostel details</div></div></div>
+      <div class="profile-header">
+        <div class="avatar-wrap lg">
+          <div class="avatar avatar-target" id="profileAvatar" onclick="triggerPhotoUpload()">S</div>
+          <div class="avatar-edit" onclick="triggerPhotoUpload()">📷</div>
+        </div>
+        <div>
+          <div style="font-weight:700; font-size:1.1rem;" id="profileName">—</div>
+          <div style="font-size:0.85rem; color:var(--ink-soft);" id="profileRoomLine">—</div>
+          <div class="avatar-hint">Click the photo to upload a new one</div>
+        </div>
+      </div>
+      <div class="form-card">
+        <div class="field-row">
+          <div class="field"><label>Full name</label><input type="text" id="profFullName"></div>
+          <div class="field"><label>Room number</label><input type="text" id="profRoom"></div>
+        </div>
+        <div class="field-row">
+          <div class="field"><label>Email</label><input type="text" id="profEmail" placeholder="you@college.edu"></div>
+          <div class="field"><label>Phone</label><input type="text" id="profPhone" placeholder="98765 43210"></div>
+        </div>
+        <div class="field-row">
+          <div class="field"><label>Course</label><input type="text" id="profCourse" placeholder="e.g. B.Tech CSE"></div>
+          <div class="field"><label>Year</label><input type="text" id="profYear" placeholder="e.g. 3rd Year"></div>
+        </div>
+        <button class="btn-primary" onclick="saveProfile()">Save changes</button>
+        <span class="empty" id="profileSaved" style="display:none; padding:0 0 0 14px;">✅ Saved</span>
+      </div>
+    </section>
+
+    <!-- ============ ADMIN VIEWS ============ -->
+
+    <!-- ADMIN DASHBOARD -->
+    <section class="view" id="view-admin">
+      <div class="topline"><div><h1>Admin Dashboard</h1><div class="meta">What the mess committee & warden see</div></div></div>
+      <div class="profile-header">
+        <div class="avatar-wrap lg">
+          <div class="avatar avatar-target" id="adminAvatar" onclick="triggerPhotoUpload()">W</div>
+          <div class="avatar-edit" onclick="triggerPhotoUpload()">📷</div>
+        </div>
+        <div>
+          <div style="font-weight:700; font-size:1.1rem;" id="adminProfileName">—</div>
+          <div style="font-size:0.85rem; color:var(--ink-soft);">Warden / Mess Committee</div>
+          <div class="avatar-hint">Click the photo to upload a new one</div>
+        </div>
+      </div>
+      <div class="admin-grid">
+        <div class="panel">
+          <h3>Tomorrow's meal opt-outs (all students)</h3>
+          <div class="bar-row"><div class="lbl"><span>Breakfast</span><span>18 opted out</span></div><div class="bar-track"><div class="bar-fill" style="width:10%"></div></div></div>
+          <div class="bar-row"><div class="lbl"><span>Lunch</span><span>42 opted out</span></div><div class="bar-track"><div class="bar-fill" style="width:23%"></div></div></div>
+          <div class="bar-row"><div class="lbl"><span>Dinner</span><span>27 opted out</span></div><div class="bar-track"><div class="bar-fill" style="width:15%"></div></div></div>
+        </div>
+        <div class="panel">
+          <h3>Today's meal ratings</h3>
+          <div class="bar-row"><div class="lbl"><span>😄 Great</span><span>38%</span></div><div class="bar-track"><div class="bar-fill" style="width:38%"></div></div></div>
+          <div class="bar-row"><div class="lbl"><span>🙂 Good</span><span>34%</span></div><div class="bar-track"><div class="bar-fill" style="width:34%"></div></div></div>
+          <div class="bar-row"><div class="lbl"><span>😐 Okay</span><span>19%</span></div><div class="bar-track"><div class="bar-fill" style="width:19%"></div></div></div>
+          <div class="bar-row"><div class="lbl"><span>😞 Poor</span><span>9%</span></div><div class="bar-track"><div class="bar-fill" style="width:9%"></div></div></div>
+        </div>
+      </div>
+      <div class="stat-row">
+        <div class="stat"><div class="num" id="adminStudentCount">0</div><div class="lbl">Students in directory</div></div>
+        <div class="stat"><div class="num" id="adminOpenCount">2</div><div class="lbl">Open complaints</div></div>
+        <div class="stat"><div class="num">₹31.2L</div><div class="lbl">Fees collected</div></div>
+        <div class="stat"><div class="num">4</div><div class="lbl">Notices this month</div></div>
+      </div>
+    </section>
+
+    <!-- ADMIN: STUDENTS MANAGE -->
+    <section class="view" id="view-adminStudents">
+      <div class="topline"><div><h1>Students</h1><div class="meta">Complete student directory with room, contact and course details</div></div></div>
+      <div class="student-summary"><span id="studentSummary">Loading student records…</span><span>Scroll horizontally on smaller screens to view every column.</span></div>
+      <div class="table-wrap">
+        <div class="table-row head"><div class="c1">Name & details</div><div class="c2">Room</div><div class="c3">Hostel</div><div class="c4">Action</div></div>
+        <div id="studentTable"></div>
+      </div>
+    </section>
+
+    <!-- ADMIN: ROOMS (add/remove + occupancy) -->
+    <section class="view" id="view-adminRooms">
+      <div class="topline"><div><h1>Rooms</h1><div class="meta">Add or remove rooms, track occupancy per hostel</div></div></div>
+
+      <div class="panel">
+        <h3>Occupancy by hostel</h3>
+        <div id="occupancyBars"></div>
+      </div>
+
+      <div class="form-card">
+        <h3 style="font-size:0.95rem; margin-bottom:14px;">Add a room</h3>
+        <div class="field-row">
+          <div class="field"><label>Hostel</label><select id="addRoomHostel"></select></div>
+          <div class="field"><label>Room number</label><input type="text" id="addRoomNo" placeholder="e.g. 305"></div>
+        </div>
+        <div class="field-row">
+          <div class="field"><label>Type</label>
+            <select id="addRoomType"><option>2-seater</option><option>3-seater</option><option>Single</option></select>
+          </div>
+          <div class="field"><label>Facilities (comma separated)</label><input type="text" id="addRoomFac" placeholder="Attached bath, Wi-Fi, Balcony"></div>
+        </div>
+        <button class="btn-primary" onclick="addRoom()">Add room</button>
+      </div>
+
+      <div class="table-wrap">
+        <div class="table-row head"><div class="c1">Room</div><div class="c2">Hostel</div><div class="c3">Status</div><div class="c4">Action</div></div>
+        <div id="adminRoomTable"></div>
+      </div>
+    </section>
+
+    <!-- ADMIN: COMPLAINTS MANAGE -->
+    <section class="view" id="view-adminComplaints">
+      <div class="topline"><div><h1>Complaints</h1><div class="meta">Mark issues resolved as they're fixed</div></div></div>
+      <div class="issue-list" id="adminIssueList"></div>
+    </section>
+
+    <!-- ADMIN: FEE RECORDS -->
+    <section class="view" id="view-adminFees">
+      <div class="topline"><div><h1>Fee Records</h1><div class="meta">Click a status to toggle Paid / Pending</div></div></div>
+      <div class="table-wrap">
+        <div class="table-row head"><div class="c1">Student</div><div class="c2">Hostel Fee</div><div class="c3">Mess Fee</div><div class="c4"></div></div>
+        <div id="feeTable"></div>
+      </div>
+    </section>
+
+    <!-- ADMIN: REVIEWS MANAGE -->
+    <section class="view" id="view-adminReviews">
+      <div class="topline"><div><h1>Reviews</h1><div class="meta">Mess ratings and comments submitted by students</div></div></div>
+      <div id="reviewList"></div>
+    </section>
+
+    <!-- ADMIN: LAUNDRY -->
+    <section class="view" id="view-adminLaundry">
+      <div class="topline"><div><h1>Laundry</h1><div class="meta">Slot occupancy and current bookings</div></div></div>
+      <div class="panel">
+        <h3>Slot occupancy</h3>
+        <div id="laundryOccupancy"></div>
+      </div>
+      <div class="table-wrap">
+        <div class="table-row head"><div class="c1">Student</div><div class="c2">Day</div><div class="c3">Slot</div><div class="c4">Action</div></div>
+        <div id="adminLaundryTable"></div>
+      </div>
+    </section>
+
+    <!-- ADMIN: LEAVE REQUESTS -->
+    <section class="view" id="view-adminLeave">
+      <div class="topline"><div><h1>Leave Requests</h1><div class="meta">Approve or reject student leave applications</div></div></div>
+      <div class="issue-list" id="adminLeaveList"></div>
+    </section>
+
+  </main>
+</div>
+
+<script>
+  // ================= Screen routing =================
+  function goTo(screen){
+    document.getElementById('screen-landing').style.display = screen==='landing' ? 'flex' : 'none';
+    document.getElementById('screen-login').style.display = screen==='login' ? 'flex' : 'none';
+    document.getElementById('appShell').classList.toggle('active', screen==='app');
+    if(screen==='login'){
+      document.getElementById('loginMainBox').style.display = 'block';
+      document.getElementById('forgotPasswordBox').style.display = 'none';
+    }
+  }
+
+  // ================= Auth =================
+  let currentRole = 'student';
+  let authTab = 'login';
+
+  function setAuthTab(tab){
+    authTab = tab;
+    document.querySelectorAll('.tab-item').forEach(b=>b.classList.toggle('active', b.dataset.tab===tab));
+    document.getElementById('signupExtra').style.display = (tab==='signup' && currentRole==='student') ? 'flex' : 'none';
+    document.getElementById('confirmPasswordField').style.display = tab==='signup' ? 'block' : 'none';
+    document.getElementById('forgotLink').style.display = tab==='signup' ? 'none' : 'block';
+    document.getElementById('authSubmitBtn').textContent = tab==='signup' ? 'Create account' : 'Log in';
+  }
+
+  function togglePasswordVisibility(inputId, btnId){
+    const input = document.getElementById(inputId);
+    const btn = document.getElementById(btnId);
+    const isHidden = input.type === 'password';
+    input.type = isHidden ? 'text' : 'password';
+    btn.textContent = isHidden ? '🙈' : '👁️';
+    btn.title = isHidden ? 'Hide password' : 'Show password';
+  }
+
+  function showForgotPassword(){
+    document.getElementById('loginMainBox').style.display = 'none';
+    document.getElementById('forgotPasswordBox').style.display = 'block';
+    document.getElementById('forgotErr').style.display = 'none';
+    document.getElementById('forgotSent').style.display = 'none';
+    document.getElementById('forgotEmail').value = '';
+  }
+  function hideForgotPassword(){
+    document.getElementById('forgotPasswordBox').style.display = 'none';
+    document.getElementById('loginMainBox').style.display = 'block';
+  }
+  function sendResetLink(){
+    const email = document.getElementById('forgotEmail').value.trim();
+    const err = document.getElementById('forgotErr');
+    const sent = document.getElementById('forgotSent');
+    if(!email || !email.includes('@') || !email.includes('.')){
+      err.style.display = 'block';
+      sent.style.display = 'none';
+      return;
+    }
+    err.style.display = 'none';
+    sent.style.display = 'block';
+  }
+
+  function setRole(role){
+    currentRole = role;
+    document.querySelectorAll('.role-btn').forEach(b=>b.classList.toggle('active', b.dataset.role===role));
+    document.getElementById('roomField').style.display = role==='student' ? 'block' : 'none';
+    document.getElementById('signupExtra').style.display = (authTab==='signup' && role==='student') ? 'flex' : 'none';
+    document.getElementById('labelName').textContent = role==='student' ? 'Full name' : 'Staff name';
+    document.getElementById('loginHint').textContent = role==='student'
+      ? 'Use any name and room number — this is a demo login, no real account needed.'
+      : 'Use any staff name to preview the admin dashboard — this is a demo login.';
+  }
+
+  let currentUser = { name:'', room:'', email:'', phone:'', course:'', year:'', role:'student', photo:null, password:'' };
+  let userPhotos = { student:null, admin:null };
+
+  // ---- Profile photo upload ----
+  function triggerPhotoUpload(){
+    document.getElementById('photoInput').click();
+  }
+  function handlePhotoUpload(e){
+    const file = e.target.files[0];
+    if(!file) return;
+    if(!file.type.startsWith('image/')){ alert('Please choose an image file.'); e.target.value=''; return; }
+    if(file.size > 4 * 1024 * 1024){ alert('Please choose an image under 4MB.'); e.target.value=''; return; }
+    const reader = new FileReader();
+    reader.onload = function(ev){
+      currentUser.photo = ev.target.result;
+      userPhotos[currentUser.role] = ev.target.result;
+      updateAvatarDisplays();
+      e.target.value = '';
+    };
+    reader.readAsDataURL(file);
+  }
+  function updateAvatarDisplays(){
+    const initials = currentUser.name ? currentUser.name.charAt(0).toUpperCase() : (currentUser.role==='admin' ? 'W' : 'S');
+    document.querySelectorAll('.avatar-target').forEach(el=>{
+      if(currentUser.photo){
+        el.innerHTML = `<img src="${currentUser.photo}" alt="Profile photo">`;
+      } else {
+        el.textContent = initials;
+      }
+    });
+  }
+
+  function doLogin(){
+    const name = document.getElementById('loginName').value.trim();
+    const room = document.getElementById('loginRoom').value.trim();
+    const password = document.getElementById('loginPassword').value;
+    const confirmPassword = document.getElementById('loginConfirmPassword').value;
+    const err = document.getElementById('loginErr');
+    if(!name || (currentRole==='student' && !room) || !password){
+      err.textContent = 'Please fill in the required fields to continue.';
+      err.style.display = 'block';
+      return;
+    }
+    if(authTab==='signup' && password !== confirmPassword){
+      err.textContent = 'Password and confirm password do not match.';
+      err.style.display = 'block';
+      return;
+    }
+    document.getElementById('loginErr').style.display = 'none';
+    currentUser = {
+      name, room, password,
+      email: document.getElementById('loginEmail').value.trim() || 'you@college.edu',
+      phone: document.getElementById('loginPhone').value.trim() || '—',
+      course: 'B.Tech CSE', year: '3rd Year',
+      role: currentRole,
+      photo: userPhotos[currentRole] || null
+    };
+
+    document.getElementById('studentNav').style.display = currentRole==='student' ? 'block' : 'none';
+    document.getElementById('adminNav').style.display = currentRole==='admin' ? 'block' : 'none';
+    document.getElementById('sideUserName').textContent = currentRole==='student'
+      ? `${name} · Room ${room}` : `${name} · Admin`;
+    document.getElementById('homeGreet').textContent = `Welcome, ${name.split(' ')[0]} 👋`;
+    document.getElementById('menuTitle').textContent = currentRole==='admin' ? "Update Mess Menu" : "This Week's Mess Menu";
+    document.getElementById('menuSub').textContent = currentRole==='admin' ? "Edit any meal and save — students see it instantly" : "Updated by the mess committee every Sunday";
+    document.getElementById('saveMenuBtn').style.display = currentRole==='admin' ? 'inline-block' : 'none';
+    document.getElementById('ratingCard').style.display = currentRole==='admin' ? 'none' : 'block';
+    document.getElementById('optoutCard').style.display = currentRole==='admin' ? 'none' : 'block';
+    document.getElementById('noticesTitle').textContent = currentRole==='admin' ? 'Publish Notices' : 'Notice Board';
+    document.getElementById('noticesSub').textContent = currentRole==='admin' ? 'Post an announcement — it appears instantly on student dashboards' : 'Announcements from the warden and mess committee';
+    document.getElementById('noticePublishCard').style.display = currentRole==='admin' ? 'block' : 'none';
+    document.getElementById('eventsTitle').textContent = currentRole==='admin' ? 'Manage Events' : 'Hostel Events';
+    document.getElementById('eventsSub').textContent = currentRole==='admin' ? 'Publish an event — students see it instantly and can RSVP' : 'Upcoming events around the hostel — tap to RSVP';
+    document.getElementById('eventPublishCard').style.display = currentRole==='admin' ? 'block' : 'none';
+
+    if(currentRole==='student'){
+      document.getElementById('profFullName').value = currentUser.name;
+      document.getElementById('profRoom').value = currentUser.room;
+      document.getElementById('profEmail').value = currentUser.email;
+      document.getElementById('profPhone').value = currentUser.phone;
+      document.getElementById('profCourse').value = currentUser.course;
+      document.getElementById('profYear').value = currentUser.year;
+      document.getElementById('profileName').textContent = currentUser.name;
+      document.getElementById('profileRoomLine').textContent = `Room ${currentUser.room} · ${currentUser.course}`;
+    } else {
+      document.getElementById('adminProfileName').textContent = currentUser.name;
+    }
+    updateAvatarDisplays();
+
+    const navRoot = currentRole==='student' ? document.getElementById('studentNav') : document.getElementById('adminNav');
+    navItems.forEach(b=>b.classList.remove('active'));
+    const firstBtn = navRoot.querySelector('.nav-item');
+    firstBtn.classList.add('active');
+    views.forEach(v=>v.classList.remove('active'));
+    document.getElementById('view-'+firstBtn.dataset.view).classList.add('active');
+    renderAllAdminBits();
+    renderDay(dayNames[todayIdx]);
+
+    goTo('app');
+  }
+
+  function doLogout(){
+    document.getElementById('loginName').value = '';
+    document.getElementById('loginRoom').value = '';
+    document.getElementById('loginEmail').value = '';
+    document.getElementById('loginPhone').value = '';
+    document.getElementById('loginPassword').value = '';
+    document.getElementById('loginConfirmPassword').value = '';
+    goTo('landing');
+  }
+
+  // ================= Nav within app =================
+  const navItems = document.querySelectorAll('.nav-item');
+  const views = document.querySelectorAll('.view');
+  navItems.forEach(btn=>{
+    btn.addEventListener('click', ()=>{
+      const navRoot = currentUser.role==='student' ? document.getElementById('studentNav') : document.getElementById('adminNav');
+      navRoot.querySelectorAll('.nav-item').forEach(b=>b.classList.remove('active'));
+      btn.classList.add('active');
+      views.forEach(v=>v.classList.remove('active'));
+      document.getElementById('view-'+btn.dataset.view).classList.add('active');
+      renderAllAdminBits();
+    });
+  });
+
+  function renderAllAdminBits(){
+    renderIssues(); renderAdminIssues(); renderHostels(); renderStudentTable();
+    renderAdminRoomTable(); renderOccupancy(); renderFeeTable(); renderReviews(); renderNotices();
+    renderMyFees(); renderLaundrySlots(); renderMyLaundry(); renderLaundryOccupancy(); renderAdminLaundryTable();
+    renderEvents(); renderMyLeave(); renderAdminLeave();
+    renderWastageChart(); renderWastageByMeal(); renderNotifications();
+  }
+
+  // ================= Mess menu =================
+  const menu = {
+    Mon: { Breakfast:['Poha','Boiled eggs / Sprouts','Tea & Coffee'], Lunch:['Dal Tadka','Jeera Rice','Mix Veg','Roti','Salad'], Snacks:['Samosa','Chai'], Dinner:['Rajma','Rice','Roti','Curd'] },
+    Tue: { Breakfast:['Idli Sambar','Coconut Chutney','Tea & Coffee'], Lunch:['Chole','Rice','Bhindi Fry','Roti'], Snacks:['Bread Pakora','Chai'], Dinner:['Paneer Curry','Rice','Roti','Salad'] },
+    Wed: { Breakfast:['Aloo Paratha','Curd','Pickle'], Lunch:['Dal Fry','Jeera Rice','Aloo Gobi','Roti'], Snacks:['Vada Pav','Chai'], Dinner:['Mix Dal','Rice','Roti','Papad'] },
+    Thu: { Breakfast:['Upma','Boiled Eggs','Tea & Coffee'], Lunch:['Kadhi Pakora','Rice','Roti','Salad'], Snacks:['Maggi','Chai'], Dinner:['Chicken/Soya Curry','Rice','Roti'] },
+    Fri: { Breakfast:['Chole Bhature'], Lunch:['Rajma','Rice','Roti','Salad'], Snacks:['Pakoda','Chai'], Dinner:['Paneer Bhurji','Rice','Roti'] },
+    Sat: { Breakfast:['Dosa','Sambar','Chutney'], Lunch:['Veg Biryani','Raita','Papad'], Snacks:['Pav Bhaji'], Dinner:['Dal Makhani','Rice','Roti'] },
+    Sun: { Breakfast:['Puri Bhaji'], Lunch:['Special Thali','Sweet'], Snacks:['Sandwich','Chai'], Dinner:['Fried Rice','Manchurian'] },
+  };
+  const dayTabs = document.getElementById('dayTabs');
+  const dayBody = document.getElementById('dayBody');
+  const dayNames = Object.keys(menu);
+  const todayIdx = new Date().getDay() === 0 ? 6 : new Date().getDay()-1;
+  let activeDay = dayNames[todayIdx];
+
+  dayNames.forEach((d,i)=>{
+    const b = document.createElement('button');
+    b.className = 'day-tab' + (i===todayIdx ? ' active' : '');
+    b.textContent = d;
+    b.addEventListener('click', ()=>{
+      document.querySelectorAll('.day-tab').forEach(x=>x.classList.remove('active'));
+      b.classList.add('active');
+      activeDay = d;
+      renderDay(d);
+    });
+    dayTabs.appendChild(b);
+  });
+
+  function renderDay(d){
+    const meals = menu[d];
+    const editable = currentUser.role === 'admin';
+    dayBody.innerHTML = '<div class="meal-grid">' + Object.keys(meals).map(m=>
+      editable
+        ? `<div class="meal-block"><div class="h">${m}</div><textarea data-meal="${m}">${meals[m].join(', ')}</textarea></div>`
+        : `<div class="meal-block"><div class="h">${m}</div><ul>${meals[m].map(item=>`<li>${item}</li>`).join('')}</ul></div>`
+    ).join('') + '</div>';
+  }
+  renderDay(activeDay);
+
+  function saveMenuEdits(){
+    document.querySelectorAll('#dayBody textarea').forEach(ta=>{
+      const m = ta.dataset.meal;
+      menu[activeDay][m] = ta.value.split(',').map(s=>s.trim()).filter(Boolean);
+    });
+    alert('Menu updated for ' + activeDay + ' — students will see this immediately.');
+    renderDay(activeDay);
+  }
+
+  document.querySelectorAll('.rate-btn').forEach(btn=>{
+    btn.addEventListener('click', ()=>{
+      document.querySelectorAll('.rate-btn').forEach(b=>b.classList.remove('chosen'));
+      btn.classList.add('chosen');
+    });
+  });
+  document.querySelectorAll('.switch').forEach(sw=>{
+    sw.addEventListener('click', ()=> sw.classList.toggle('on'));
+  });
+
+  // ================= Complaints =================
+  let issues = [
+    { room:'214-C', cat:'Wi-Fi / Internet', desc:'Router on 2nd floor has been down since Monday.', status:'open' },
+    { room:'108-A', cat:'Plumbing', desc:'Leaking tap in the common washroom.', status:'resolved' },
+  ];
+
+  function renderIssues(){
+    const list = document.getElementById('issueList');
+    if(!list) return;
+    if(issues.length === 0){ list.innerHTML = '<div class="empty">No issues reported yet.</div>'; return; }
+    list.innerHTML = issues.map(iss => `
+      <div class="issue-item ${iss.status==='resolved'?'resolved':''}">
+        <div class="body"><div class="cat">${iss.cat}</div><div class="desc">${iss.desc}</div><div class="room">Room ${iss.room}</div></div>
+        <div class="status-pill ${iss.status==='resolved'?'resolved':''}">${iss.status==='resolved'?'Resolved':'Pending'}</div>
+      </div>`).join('');
+  }
+
+  function renderAdminIssues(){
+    const list = document.getElementById('adminIssueList');
+    if(!list) return;
+    list.innerHTML = issues.map((iss,i) => `
+      <div class="issue-item ${iss.status==='resolved'?'resolved':''}">
+        <div class="body"><div class="cat">${iss.cat}</div><div class="desc">${iss.desc}</div><div class="room">Room ${iss.room}</div></div>
+        <div class="actions">
+          <button class="btn-small" onclick="toggleIssueStatus(${i})">${iss.status==='resolved'?'Reopen':'Mark resolved'}</button>
+        </div>
+      </div>`).join('');
+    document.getElementById('adminOpenCount') && (document.getElementById('adminOpenCount').textContent = issues.filter(x=>x.status==='open').length);
+  }
+  function toggleIssueStatus(i){
+    issues[i].status = issues[i].status==='resolved' ? 'open' : 'resolved';
+    renderIssues(); renderAdminIssues();
+  }
+
+  document.getElementById('submitIssue').addEventListener('click', ()=>{
+    const room = document.getElementById('issueRoom').value.trim();
+    const cat = document.getElementById('issueCat').value;
+    const desc = document.getElementById('issueDesc').value.trim();
+    if(!room || !desc){ alert('Please fill in your room number and a short description.'); return; }
+    issues.unshift({ room, cat, desc, status:'open' });
+    document.getElementById('issueRoom').value = '';
+    document.getElementById('issueDesc').value = '';
+    renderIssues(); renderAdminIssues();
+    const confirmMsg = document.getElementById('submitConfirm');
+    confirmMsg.style.display = 'block';
+    setTimeout(()=> confirmMsg.style.display = 'none', 4000);
+  });
+
+  // ================= Mess Food Wastage =================
+  const wastageData = [
+    { day:'Mon', kg:24, target:20 },
+    { day:'Tue', kg:19, target:20 },
+    { day:'Wed', kg:31, target:20 },
+    { day:'Thu', kg:17, target:20 },
+    { day:'Fri', kg:22, target:20 },
+    { day:'Sat', kg:28, target:20 },
+    { day:'Sun', kg:15, target:20 },
+  ];
+  const wastageByMeal = [
+    { meal:'Breakfast', kg:4.5, pct:20 },
+    { meal:'Lunch', kg:8.2, pct:36 },
+    { meal:'Snacks', kg:2.1, pct:9 },
+    { meal:'Dinner', kg:8.0, pct:35 },
+  ];
+  const wastageLastWeekTotal = 168;
+
+  function renderWastageChart(){
+    const el = document.getElementById('wastageChart');
+    if(!el) return;
+    const w = 620, h = 220, padL = 34, padB = 30, padT = 14, padR = 10;
+    const chartW = w - padL - padR, chartH = h - padT - padB;
+    const maxVal = Math.max(...wastageData.map(d=>d.kg), ...wastageData.map(d=>d.target)) * 1.15;
+    const barGap = 18;
+    const barW = (chartW - barGap * (wastageData.length - 1)) / wastageData.length;
+    const scaleY = v => chartH - (v / maxVal) * chartH;
+
+    const gridLines = [0, 0.25, 0.5, 0.75, 1].map(f=>{
+      const y = padT + chartH * f;
+      const val = Math.round(maxVal * (1 - f));
+      return `<line x1="${padL}" y1="${y}" x2="${w-padR}" y2="${y}" stroke="var(--line)" stroke-width="1"/>
+              <text x="${padL-8}" y="${y+4}" font-size="10" text-anchor="end" fill="var(--ink-soft)">${val}</text>`;
+    }).join('');
+
+    const targetY = padT + scaleY(wastageData[0].target);
+    const targetLine = `<line x1="${padL}" y1="${targetY}" x2="${w-padR}" y2="${targetY}" stroke="var(--sage)" stroke-width="1.5" stroke-dasharray="5,4"/>
+      <text x="${w-padR}" y="${targetY-6}" font-size="10" text-anchor="end" fill="var(--sage)" font-weight="600">Target</text>`;
+
+    const bars = wastageData.map((d,i)=>{
+      const x = padL + i * (barW + barGap);
+      const barH = (d.kg / maxVal) * chartH;
+      const y = padT + chartH - barH;
+      const color = d.kg > d.target ? 'var(--brick)' : 'var(--mustard)';
+      return `
+        <rect class="wastage-bar" x="${x}" y="${y}" width="${barW}" height="${barH}" rx="5" fill="${color}"></rect>
+        <text x="${x + barW/2}" y="${y - 7}" font-size="11" font-weight="700" text-anchor="middle" fill="var(--text-strong)">${d.kg}</text>
+        <text x="${x + barW/2}" y="${h - padB + 16}" font-size="11" text-anchor="middle" fill="var(--ink-soft)">${d.day}</text>
+      `;
+    }).join('');
+
+    el.innerHTML = `<svg viewBox="0 0 ${w} ${h}" width="100%" style="max-width:${w}px;">
+      ${gridLines}
+      ${bars}
+      ${targetLine}
+    </svg>`;
+
+    const total = wastageData.reduce((s,d)=>s+d.kg, 0);
+    const avg = (total / wastageData.length).toFixed(1);
+    const diff = total - wastageLastWeekTotal;
+    const diffPct = ((diff / wastageLastWeekTotal) * 100).toFixed(0);
+    const cost = total * 42; // approx ₹ per kg of wasted food
+
+    const totalEl = document.getElementById('wastageWeekTotal');
+    if(totalEl) totalEl.textContent = total + ' kg';
+    const avgEl = document.getElementById('wastageAvgDay');
+    if(avgEl) avgEl.textContent = avg + ' kg';
+    const trendEl = document.getElementById('wastageTrend');
+    if(trendEl){
+      trendEl.textContent = (diff <= 0 ? '↓ ' : '↑ ') + Math.abs(diffPct) + '%';
+      trendEl.style.color = diff <= 0 ? 'var(--sage)' : 'var(--brick)';
+    }
+    const costEl = document.getElementById('wastageCost');
+    if(costEl) costEl.textContent = '₹' + cost.toLocaleString('en-IN');
+  }
+
+  function renderWastageByMeal(){
+    const el = document.getElementById('wastageByMeal');
+    if(!el) return;
+    el.innerHTML = wastageByMeal.map(m=>
+      `<div class="bar-row"><div class="lbl"><span>${m.meal}</span><span>${m.kg} kg · ${m.pct}%</span></div><div class="bar-track"><div class="bar-fill" style="width:${m.pct}%"></div></div></div>`
+    ).join('');
+  }
+
+  // ================= Notices =================
+  let notices = [
+    { d:'10', m:'Sep', title:'Water tanker delayed today', text:'Water supply to Block C will resume by 6 PM. Stored water is available near the ground floor common room.' },
+    { d:'08', m:'Sep', title:'Mess menu revised for the week', text:"New rotation includes more regional dishes based on last month's feedback survey." },
+    { d:'05', m:'Sep', title:'Fumigation drive — Block A & B', text:'Rooms will be fumigated between 3–5 PM. Please keep food items covered.' },
+    { d:'01', m:'Sep', title:'Guest meal coupons now available', text:'Buy guest meal coupons at the mess counter, ₹80 per meal, cash or UPI.' },
+  ];
+  function renderNotices(){
+    document.getElementById('noticeList').innerHTML = notices.map(n => `
+      <div class="notice"><div class="date-chip"><div class="d">${n.d}</div><div class="m">${n.m}</div></div>
+        <div><div class="title">${n.title}</div><div class="text">${n.text}</div></div></div>`).join('');
+  }
+  function publishNotice(){
+    const title = document.getElementById('noticeTitleInput').value.trim();
+    const text = document.getElementById('noticeTextInput').value.trim();
+    if(!title || !text){ alert('Please fill in both the title and details.'); return; }
+    const now = new Date();
+    notices.unshift({ d: String(now.getDate()).padStart(2,'0'), m: now.toLocaleString('en-IN',{month:'short'}), title, text });
+    document.getElementById('noticeTitleInput').value = '';
+    document.getElementById('noticeTextInput').value = '';
+    renderNotices();
+  }
+
+  // ================= Hostels & Rooms =================
+  let hostels = [
+    { name:'Block A — Boys Hostel', type:'Boys · Ground+3', rooms:[
+      { no:'A-101', type:'2-seater', status:'available', fac:['Attached bath','Wi-Fi'] },
+      { no:'A-102', type:'3-seater', status:'occupied', fac:['Common bath','Wi-Fi'] },
+      { no:'A-201', type:'Single', status:'available', fac:['Attached bath','Wi-Fi','Balcony'] },
+    ]},
+    { name:'Block B — Boys Hostel', type:'Boys · Ground+4', rooms:[
+      { no:'B-105', type:'2-seater', status:'occupied', fac:['Attached bath'] },
+      { no:'B-110', type:'2-seater', status:'available', fac:['Wi-Fi','Attached bath'] },
+    ]},
+    { name:'Block C — Girls Hostel', type:'Girls · Ground+3', rooms:[
+      { no:'C-214', type:'2-seater', status:'occupied', fac:['Attached bath','Wi-Fi','Balcony'] },
+      { no:'C-220', type:'3-seater', status:'available', fac:['Common bath','Wi-Fi'] },
+    ]},
+  ];
+  let activeHostelIdx = 0;
+  function renderHostels(){
+    const grid = document.getElementById('hostelGrid');
+    if(!grid) return;
+    grid.innerHTML = hostels.map((h,i)=>{
+      const avail = h.rooms.filter(r=>r.status==='available').length;
+      return `<div class="hostel-card ${i===activeHostelIdx?'active':''}" onclick="selectHostel(${i})">
+        <div class="hname">${h.name}</div><div class="htype">${h.type}</div>
+        <div class="havail">${avail} room${avail===1?'':'s'} available</div>
+      </div>`;
+    }).join('');
+    renderRooms();
+  }
+  function selectHostel(i){ activeHostelIdx = i; renderHostels(); }
+  function renderRooms(){
+    const h = hostels[activeHostelIdx];
+    document.getElementById('roomsHeading').textContent = 'Rooms in ' + h.name;
+    document.getElementById('roomGrid').innerHTML = h.rooms.map(r => `
+      <div class="room-card">
+        <div class="rtop"><span class="rno">${r.no}</span><span class="status-pill ${r.status==='available'?'paid':'pending'}">${r.status==='available'?'Available':'Occupied'}</span></div>
+        <div class="rtype">${r.type}</div>
+        <div class="tag-row">${r.fac.map(f=>`<span class="facility-tag">${f}</span>`).join('')}</div>
+      </div>`).join('');
+  }
+
+  // ================= Admin: Students =================
+  let students = [
+    { name:'Aditya Sharma', room:'A-101', hostel:'Block A', course:'B.Tech CSE · 3rd Year', email:'aditya.sharma@college.edu', phone:'+91 98765 12001' },
+    { name:'Rohan Mehta', room:'B-105', hostel:'Block B', course:'BBA · 2nd Year', email:'rohan.mehta@college.edu', phone:'+91 98765 12002' },
+    { name:'Priya Nair', room:'C-214', hostel:'Block C', course:'B.Sc Biology · 3rd Year', email:'priya.nair@college.edu', phone:'+91 98765 12003' },
+    { name:'Karan Verma', room:'A-102', hostel:'Block A', course:'B.Tech ECE · 4th Year', email:'karan.verma@college.edu', phone:'+91 98765 12004' },
+    { name:'Simran Kaur', room:'C-220', hostel:'Block C', course:'B.Des · 2nd Year', email:'simran.kaur@college.edu', phone:'+91 98765 12005' },
+    { name:'Vivek Joshi', room:'A-201', hostel:'Block A', course:'B.Tech IT · 1st Year', email:'vivek.joshi@college.edu', phone:'+91 98765 12006' },
+    { name:'Ananya Gupta', room:'B-110', hostel:'Block B', course:'B.Com · 3rd Year', email:'ananya.gupta@college.edu', phone:'+91 98765 12007' },
+    { name:'Arjun Malhotra', room:'B-118', hostel:'Block B', course:'B.Tech CSE · 2nd Year', email:'arjun.malhotra@college.edu', phone:'+91 98765 12008' },
+    { name:'Mehak Singh', room:'C-205', hostel:'Block C', course:'BA Psychology · 1st Year', email:'mehak.singh@college.edu', phone:'+91 98765 12009' },
+    { name:'Ishaan Kapoor', room:'A-208', hostel:'Block A', course:'B.Tech Mechanical · 4th Year', email:'ishaan.kapoor@college.edu', phone:'+91 98765 12010' },
+  ];
+  function renderStudentTable(){
+    const el = document.getElementById('studentTable');
+    if(!el) return;
+    el.innerHTML = students.map((s,i)=>`
+      <div class="table-row">
+        <div class="c1"><div class="student-cell"><span class="student-avatar">${s.name.charAt(0)}</span><span><span class="student-name">${s.name}</span><span class="student-meta">${s.course}</span><span class="student-contact">${s.email} · ${s.phone}</span></span></div></div>
+        <div class="c2">${s.room}</div><div class="c3">${s.hostel}</div>
+        <div class="c4"><button class="btn-danger" onclick="removeStudent(${i})">Remove</button></div></div>`).join('');
+    const summary = document.getElementById('studentSummary');
+    if(summary) summary.innerHTML = `<strong>${students.length} students</strong> · Full records loaded`;
+    const count = document.getElementById('adminStudentCount');
+    if(count) count.textContent = students.length;
+  }
+  function removeStudent(i){ students.splice(i,1); renderStudentTable(); }
+
+  // ================= Admin: Rooms =================
+  function populateHostelSelect(){
+    const sel = document.getElementById('addRoomHostel');
+    if(!sel) return;
+    sel.innerHTML = hostels.map((h,i)=>`<option value="${i}">${h.name}</option>`).join('');
+  }
+  function addRoom(){
+    const hIdx = parseInt(document.getElementById('addRoomHostel').value);
+    const no = document.getElementById('addRoomNo').value.trim();
+    const type = document.getElementById('addRoomType').value;
+    const fac = document.getElementById('addRoomFac').value.split(',').map(s=>s.trim()).filter(Boolean);
+    if(!no){ alert('Please enter a room number.'); return; }
+    hostels[hIdx].rooms.push({ no, type, status:'available', fac: fac.length?fac:['Wi-Fi'] });
+    document.getElementById('addRoomNo').value = '';
+    document.getElementById('addRoomFac').value = '';
+    renderAdminRoomTable(); renderOccupancy(); renderHostels();
+  }
+  function renderAdminRoomTable(){
+    const el = document.getElementById('adminRoomTable');
+    if(!el) return;
+    let rows = [];
+    hostels.forEach((h, hi)=> h.rooms.forEach((r, ri)=> rows.push(`
+      <div class="table-row"><div class="c1">${r.no}</div><div class="c2">${h.name}</div>
+        <div class="c3"><span class="status-pill ${r.status==='available'?'paid':'pending'}">${r.status==='available'?'Available':'Occupied'}</span></div>
+        <div class="c4"><button class="btn-danger" onclick="removeRoom(${hi},${ri})">Remove</button></div></div>`)));
+    el.innerHTML = rows.join('');
+  }
+  function removeRoom(hIdx, rIdx){ hostels[hIdx].rooms.splice(rIdx,1); renderAdminRoomTable(); renderOccupancy(); renderHostels(); }
+  function renderOccupancy(){
+    const el = document.getElementById('occupancyBars');
+    if(!el) return;
+    el.innerHTML = hostels.map(h=>{
+      const total = h.rooms.length || 1;
+      const occ = h.rooms.filter(r=>r.status==='occupied').length;
+      const pct = Math.round((occ/total)*100);
+      return `<div class="bar-row"><div class="lbl"><span>${h.name}</span><span>${occ}/${total} occupied</span></div><div class="bar-track"><div class="bar-fill" style="width:${pct}%"></div></div></div>`;
+    }).join('');
+  }
+
+  // ================= Admin: Fees =================
+  let feeRecords = [
+    { name:'Aditya Sharma', hostel:'pending', mess:'paid' },
+    { name:'Rohan Mehta', hostel:'paid', mess:'paid' },
+    { name:'Priya Nair', hostel:'paid', mess:'pending' },
+    { name:'Karan Verma', hostel:'pending', mess:'pending' },
+  ];
+  function renderFeeTable(){
+    const el = document.getElementById('feeTable');
+    if(!el) return;
+    el.innerHTML = feeRecords.map((f,i)=>`
+      <div class="table-row">
+        <div class="c1">${f.name}</div>
+        <div class="c2"><span class="status-pill clickable ${f.hostel}" onclick="toggleFee(${i},'hostel')">${f.hostel==='paid'?'Paid':'Pending'}</span></div>
+        <div class="c3"><span class="status-pill clickable ${f.mess}" onclick="toggleFee(${i},'mess')">${f.mess==='paid'?'Paid':'Pending'}</span></div>
+        <div class="c4"></div>
+      </div>`).join('');
+  }
+  function toggleFee(i, field){ feeRecords[i][field] = feeRecords[i][field]==='paid' ? 'pending' : 'paid'; renderFeeTable(); }
+
+  // ================= Admin: Reviews =================
+  let reviews = [
+    { name:'Aditya Sharma', rating:4, text:'Dinner has improved a lot this month, especially the dal.' },
+    { name:'Priya Nair', rating:2, text:'Breakfast is repetitive — same poha three times a week.' },
+    { name:'Karan Verma', rating:5, text:'Loved the special Sunday thali!' },
+  ];
+  function renderReviews(){
+    const el = document.getElementById('reviewList');
+    if(!el) return;
+    el.innerHTML = reviews.map((r,i)=>`
+      <div class="review-item">
+        <div class="rtop"><span class="rname">${r.name}</span><span class="stars">${'★'.repeat(r.rating)}${'☆'.repeat(5-r.rating)}</span></div>
+        <div class="rtext">${r.text}</div>
+        <div style="margin-top:8px;"><button class="btn-danger" onclick="removeReview(${i})">Remove</button></div>
+      </div>`).join('');
+  }
+  function removeReview(i){ reviews.splice(i,1); renderReviews(); }
+
+  // ================= Fees (student payment) =================
+  let myFees = [
+    { title:'Hostel Fee', meta:'Due 30 Sep 2026 · Semester 5', amount:'₹45,000', status:'pending' },
+    { title:'Mess Fee', meta:'Due 15 Sep 2026 · Monthly', amount:'₹3,800', status:'paid' },
+  ];
+  function renderMyFees(){
+    const el = document.getElementById('feeCardsWrap');
+    if(!el) return;
+    el.innerHTML = myFees.map((f,i)=>`
+      <div class="fee-card">
+        <div><div class="ftitle">${f.title}</div><div class="fmeta">${f.meta}</div></div>
+        <div style="text-align:right;">
+          <div class="famount">${f.amount}</div>
+          <span class="status-pill ${f.status}" style="margin-top:6px; display:inline-block;">${f.status==='paid'?'Paid':'Pending'}</span>
+          ${f.status==='pending' ? `<div style="margin-top:8px;"><button class="btn-primary" style="padding:8px 18px; font-size:0.82rem;" onclick="payFee(${i})">Pay now</button></div>` : ''}
+        </div>
+      </div>`).join('');
+    const statFee = document.getElementById('statFee');
+    if(statFee) statFee.textContent = myFees.some(f=>f.status==='pending') ? 'Pending' : 'Paid';
+  }
+  function payFee(i){
+    const f = myFees[i];
+    if(!confirm(`Pay ${f.amount} for ${f.title} via UPI? This is a demo payment.`)) return;
+    f.status = 'paid';
+    renderMyFees();
+    alert('Payment successful — receipt sent to your registered email.');
+  }
+
+  // ================= Laundry =================
+  let laundrySlots = [
+    { day:'Monday', time:'7:00 – 9:00 AM', capacity:6, booked:2 },
+    { day:'Monday', time:'5:00 – 7:00 PM', capacity:6, booked:5 },
+    { day:'Wednesday', time:'7:00 – 9:00 AM', capacity:6, booked:6 },
+    { day:'Wednesday', time:'5:00 – 7:00 PM', capacity:6, booked:1 },
+    { day:'Friday', time:'7:00 – 9:00 AM', capacity:6, booked:3 },
+    { day:'Saturday', time:'10:00 AM – 12:00 PM', capacity:8, booked:4 },
+  ];
+  let laundryBookings = [];
+  function renderLaundrySlots(){
+    const el = document.getElementById('laundrySlotGrid');
+    if(!el) return;
+    el.innerHTML = laundrySlots.map((s,i)=>{
+      const full = s.booked >= s.capacity;
+      const mine = laundryBookings.some(b=>b.slotIdx===i && b.student===currentUser.name);
+      return `<div class="room-card">
+        <div class="rtop"><span class="rno">${s.day}</span><span class="status-pill ${full?'pending':'paid'}">${full?'Full':'Open'}</span></div>
+        <div class="rtype">${s.time}</div>
+        <div class="tag-row" style="margin-bottom:10px;"><span class="facility-tag">${s.booked}/${s.capacity} booked</span></div>
+        <button class="btn-small" ${(full || mine) ? 'disabled style="opacity:0.5; cursor:not-allowed;"' : ''} onclick="bookLaundrySlot(${i})">${mine ? 'Booked' : 'Book slot'}</button>
+      </div>`;
+    }).join('');
+  }
+  function bookLaundrySlot(i){
+    const s = laundrySlots[i];
+    if(s.booked >= s.capacity) return;
+    if(laundryBookings.some(b=>b.slotIdx===i && b.student===currentUser.name)) return;
+    s.booked++;
+    laundryBookings.unshift({ slotIdx:i, day:s.day, time:s.time, student: currentUser.name });
+    renderLaundrySlots(); renderMyLaundry(); renderLaundryOccupancy(); renderAdminLaundryTable();
+  }
+  function cancelLaundryBooking(bookingIdx){
+    const b = laundryBookings[bookingIdx];
+    if(laundrySlots[b.slotIdx]) laundrySlots[b.slotIdx].booked = Math.max(0, laundrySlots[b.slotIdx].booked - 1);
+    laundryBookings.splice(bookingIdx,1);
+    renderLaundrySlots(); renderMyLaundry(); renderLaundryOccupancy(); renderAdminLaundryTable();
+  }
+  function renderMyLaundry(){
+    const el = document.getElementById('myLaundryList');
+    if(!el) return;
+    const mine = laundryBookings.map((b,i)=>({...b,i})).filter(b=>b.student===currentUser.name);
+    if(mine.length===0){ el.innerHTML = '<div class="empty">No laundry slots booked yet.</div>'; return; }
+    el.innerHTML = mine.map(b=>`
+      <div class="issue-item">
+        <div class="body"><div class="cat">${b.day}</div><div class="desc">${b.time}</div></div>
+        <div class="actions"><button class="btn-danger" onclick="cancelLaundryBooking(${b.i})">Cancel</button></div>
+      </div>`).join('');
+  }
+  function renderLaundryOccupancy(){
+    const el = document.getElementById('laundryOccupancy');
+    if(!el) return;
+    el.innerHTML = laundrySlots.map(s=>{
+      const pct = Math.round((s.booked/s.capacity)*100);
+      return `<div class="bar-row"><div class="lbl"><span>${s.day} · ${s.time}</span><span>${s.booked}/${s.capacity}</span></div><div class="bar-track"><div class="bar-fill" style="width:${pct}%"></div></div></div>`;
+    }).join('');
+  }
+  function renderAdminLaundryTable(){
+    const el = document.getElementById('adminLaundryTable');
+    if(!el) return;
+    if(laundryBookings.length===0){ el.innerHTML = '<div class="table-row"><div class="c1">No bookings yet</div><div class="c2"></div><div class="c3"></div><div class="c4"></div></div>'; return; }
+    el.innerHTML = laundryBookings.map((b,i)=>`
+      <div class="table-row"><div class="c1">${b.student}</div><div class="c2">${b.day}</div><div class="c3">${b.time}</div>
+        <div class="c4"><button class="btn-danger" onclick="cancelLaundryBooking(${i})">Remove</button></div></div>`).join('');
+  }
+
+  // ================= Events =================
+  let events = [
+    { d:'20', m:'Sep', title:'Inter-Hostel Cricket Tournament', text:'Block A vs Block B on the main ground. Sign up at the sports desk — prizes for the winning team.', rsvps:['Aditya Sharma','Karan Verma'] },
+    { d:'25', m:'Sep', title:'Cultural Night', text:'Music, dance and food stalls on the main lawn from 6 PM onwards. Open to all hostellers.', rsvps:['Priya Nair'] },
+  ];
+  function renderEvents(){
+    const el = document.getElementById('eventList');
+    if(!el) return;
+    if(events.length===0){ el.innerHTML = '<div class="empty">No events scheduled yet.</div>'; return; }
+    el.innerHTML = events.map((e,i)=>{
+      const joined = e.rsvps.includes(currentUser.name);
+      const actionBtn = currentUser.role==='admin'
+        ? `<button class="btn-danger" onclick="removeEvent(${i})">Remove</button>`
+        : `<button class="btn-small" onclick="toggleRSVP(${i})">${joined ? "I'm out" : "I'm in"}</button>`;
+      return `<div class="notice">
+        <div class="date-chip"><div class="d">${e.d}</div><div class="m">${e.m}</div></div>
+        <div style="flex:1;">
+          <div class="title">${e.title}</div>
+          <div class="text">${e.text}</div>
+          <div style="margin-top:10px; display:flex; align-items:center; gap:12px;">
+            <span style="font-size:0.78rem; color:var(--ink-soft);">${e.rsvps.length} going</span>
+            ${actionBtn}
+          </div>
+        </div>
+      </div>`;
+    }).join('');
+  }
+  function toggleRSVP(i){
+    const idx = events[i].rsvps.indexOf(currentUser.name);
+    if(idx>-1) events[i].rsvps.splice(idx,1); else events[i].rsvps.push(currentUser.name);
+    renderEvents();
+  }
+  function removeEvent(i){ events.splice(i,1); renderEvents(); }
+  function publishEvent(){
+    const dRaw = document.getElementById('eventDateInput').value.trim();
+    const title = document.getElementById('eventTitleInput').value.trim();
+    const text = document.getElementById('eventTextInput').value.trim();
+    if(!dRaw || !title || !text){ alert('Please fill in the date, title and details.'); return; }
+    const parts = dRaw.split(' ');
+    events.unshift({ d: parts[0] || dRaw, m: parts[1] || '', title, text, rsvps:[] });
+    document.getElementById('eventDateInput').value = '';
+    document.getElementById('eventTitleInput').value = '';
+    document.getElementById('eventTextInput').value = '';
+    renderEvents();
+  }
+
+  // ================= Hostel Leave Application =================
+  let leaveApplications = [
+    { student:'Aditya Sharma', room:'A-101', from:'2026-09-15', to:'2026-09-18', reason:'Going home for a family function.', status:'pending' },
+  ];
+  function renderMyLeave(){
+    const el = document.getElementById('myLeaveList');
+    if(!el) return;
+    const mine = leaveApplications.filter(l=>l.student===currentUser.name);
+    if(mine.length===0){ el.innerHTML = '<div class="empty">No leave applications yet.</div>'; return; }
+    el.innerHTML = mine.map(l=>`
+      <div class="issue-item ${l.status==='approved'?'resolved':''}">
+        <div class="body"><div class="cat">${l.from} → ${l.to}</div><div class="desc">${l.reason}</div><div class="room">Room ${l.room}</div></div>
+        <div class="status-pill ${l.status==='approved'?'resolved':(l.status==='rejected'?'pending':'')}">${l.status.charAt(0).toUpperCase()+l.status.slice(1)}</div>
+      </div>`).join('');
+  }
+  function renderAdminLeave(){
+    const el = document.getElementById('adminLeaveList');
+    if(!el) return;
+    if(leaveApplications.length===0){ el.innerHTML = '<div class="empty">No leave applications submitted yet.</div>'; return; }
+    el.innerHTML = leaveApplications.map((l,i)=>`
+      <div class="issue-item ${l.status!=='pending'?'resolved':''}">
+        <div class="body"><div class="cat">${l.student} · Room ${l.room}</div><div class="desc">${l.from} → ${l.to} — ${l.reason}</div></div>
+        <div class="actions">${l.status==='pending'
+          ? `<button class="btn-small" onclick="setLeaveStatus(${i},'approved')">Approve</button><button class="btn-danger" onclick="setLeaveStatus(${i},'rejected')">Reject</button>`
+          : `<div class="status-pill ${l.status==='approved'?'resolved':'pending'}">${l.status.charAt(0).toUpperCase()+l.status.slice(1)}</div>`}</div>
+      </div>`).join('');
+  }
+  function setLeaveStatus(i, status){ leaveApplications[i].status = status; renderMyLeave(); renderAdminLeave(); }
+  document.getElementById('submitLeave').addEventListener('click', ()=>{
+    const from = document.getElementById('leaveFrom').value;
+    const to = document.getElementById('leaveTo').value;
+    const reason = document.getElementById('leaveReason').value.trim();
+    if(!from || !to || !reason){ alert('Please fill in both dates and a reason.'); return; }
+    leaveApplications.unshift({ student: currentUser.name, room: currentUser.room, from, to, reason, status:'pending' });
+    document.getElementById('leaveFrom').value = '';
+    document.getElementById('leaveTo').value = '';
+    document.getElementById('leaveReason').value = '';
+    renderMyLeave(); renderAdminLeave();
+    const c = document.getElementById('leaveConfirm');
+    c.style.display = 'block';
+    setTimeout(()=> c.style.display = 'none', 4000);
+  });
+
+  // ================= Notifications (home dashboard) =================
+  // Mock schedules — in a real system these would come from the warden's records
+  const roomCleaningSchedule = { Mon:'Block A', Tue:'Block B', Wed:'Block C', Thu:'Block A', Fri:'Block B', Sat:'Block C', Sun:'No cleaning scheduled' };
+  const mentorMeetingSchedule = { Tue:{ time:'4:00 PM', where:'Common Room, Ground Floor' }, Fri:{ time:'5:30 PM', where:'Seminar Hall' } };
+  const weekdayShort = ['Sun','Mon','Tue','Wed','Thu','Fri','Sat'];
+
+  function studentBlock(){
+    const room = (currentUser.room || '').toUpperCase();
+    if(room.startsWith('B')) return 'Block B';
+    if(room.startsWith('C')) return 'Block C';
+    return 'Block A';
+  }
+
+  function renderNotifications(){
+    const list = document.getElementById('notifList');
+    const countEl = document.getElementById('notifCount');
+    if(!list || currentUser.role !== 'student') return;
+
+    const notifs = [];
+    const today = weekdayShort[new Date().getDay()];
+
+    // Room cleaning
+    const cleaningBlock = roomCleaningSchedule[today];
+    if(cleaningBlock && cleaningBlock === studentBlock()){
+      notifs.push({ type:'cleaning', icon:'🧹', title:'Room cleaning scheduled today', sub:`${cleaningBlock} — housekeeping will visit between 10 AM and 1 PM. Please keep valuables secure.`, when:'Today' });
+    }
+
+    // Mentor meeting
+    const mentor = mentorMeetingSchedule[today];
+    if(mentor){
+      notifs.push({ type:'mentor', icon:'🎓', title:'Mentor meeting today', sub:`${mentor.where} · ${mentor.time}`, when:'Today' });
+    }
+
+    // Leave application status updates
+    leaveApplications
+      .filter(l => l.student === currentUser.name && l.status !== 'pending')
+      .slice(0, 2)
+      .forEach(l=>{
+        notifs.push({
+          type:'leave', icon: l.status === 'approved' ? '✅' : '❌',
+          title: `Hostel leave ${l.status}`,
+          sub: `${l.from} → ${l.to} — ${l.reason}`,
+          when: l.status.charAt(0).toUpperCase() + l.status.slice(1)
+        });
+      });
+
+    // Latest general notice as a fallback notification
+    if(notices.length){
+      const n = notices[0];
+      notifs.push({ type:'notice', icon:'📢', title:n.title, sub:n.text, when:`${n.d} ${n.m}` });
+    }
+
+    countEl.textContent = notifs.length;
+    list.innerHTML = notifs.length
+      ? notifs.map(n=>`
+        <div class="notif-item type-${n.type}">
+          <div class="ic">${n.icon}</div>
+          <div class="txt"><div class="t">${n.title}</div><div class="s">${n.sub}</div></div>
+          <div class="when">${n.when}</div>
+        </div>`).join('')
+      : '<div class="empty">You\'re all caught up — no new notifications.</div>';
+  }
+
+  // ================= Change Password =================
+  function changePassword(){
+    const cur = document.getElementById('pwCurrent').value;
+    const next = document.getElementById('pwNew').value;
+    const conf = document.getElementById('pwConfirm').value;
+    const err = document.getElementById('pwErr');
+    if(!cur || !next || !conf){ err.textContent = 'Please fill in all three fields.'; err.style.display = 'block'; return; }
+    if(cur !== currentUser.password){ err.textContent = 'Current password is incorrect.'; err.style.display = 'block'; return; }
+    if(next.length < 4){ err.textContent = 'New password should be at least 4 characters.'; err.style.display = 'block'; return; }
+    if(next !== conf){ err.textContent = 'New password and confirmation do not match.'; err.style.display = 'block'; return; }
+    err.style.display = 'none';
+    currentUser.password = next;
+    document.getElementById('pwCurrent').value = '';
+    document.getElementById('pwNew').value = '';
+    document.getElementById('pwConfirm').value = '';
+    const saved = document.getElementById('pwSaved');
+    saved.style.display = 'inline';
+    setTimeout(()=> saved.style.display = 'none', 2500);
+  }
+
+  // ================= Profile =================
+  function saveProfile(){
+    currentUser.name = document.getElementById('profFullName').value.trim() || currentUser.name;
+    currentUser.room = document.getElementById('profRoom').value.trim() || currentUser.room;
+    currentUser.email = document.getElementById('profEmail').value.trim();
+    currentUser.phone = document.getElementById('profPhone').value.trim();
+    currentUser.course = document.getElementById('profCourse').value.trim();
+    currentUser.year = document.getElementById('profYear').value.trim();
+    document.getElementById('profileName').textContent = currentUser.name;
+    document.getElementById('profileRoomLine').textContent = `Room ${currentUser.room} · ${currentUser.course}`;
+    document.getElementById('sideUserName').textContent = `${currentUser.name} · Room ${currentUser.room}`;
+    updateAvatarDisplays();
+    const saved = document.getElementById('profileSaved');
+    saved.style.display = 'inline';
+    setTimeout(()=> saved.style.display='none', 2500);
+  }
+
+  // ================= Theme toggle =================
+  function toggleTheme(){
+    document.body.classList.toggle('theme-dark');
+    document.getElementById('themeToggleBtn').textContent = document.body.classList.contains('theme-dark') ? '☀️' : '🌙';
+  }
+
+  // ================= Next meal (based on current time) =================
+  const mealSchedule = [
+    { name:'Breakfast', start: 7*60+30, end: 9*60,      label:'7:30 AM – 9:00 AM' },
+    { name:'Lunch',     start: 12*60+30, end: 14*60,     label:'12:30 PM – 2:00 PM' },
+    { name:'Snacks',    start: 17*60,    end: 18*60,     label:'5:00 PM – 6:00 PM' },
+    { name:'Dinner',    start: 20*60,    end: 21*60+30,  label:'8:00 PM – 9:30 PM' },
+  ];
+  function updateNextMeal(){
+    const nameEl = document.getElementById('nextMealName');
+    const timeEl = document.getElementById('nextMealTime');
+    const labelEl = document.getElementById('nextMealLabel');
+    if(!nameEl || !timeEl || !labelEl) return;
+    const now = new Date();
+    const mins = now.getHours()*60 + now.getMinutes();
+    const ongoing = mealSchedule.find(m => mins >= m.start && mins < m.end);
+    const upcoming = mealSchedule.find(m => mins < m.start);
+    const meal = ongoing || upcoming || mealSchedule[0];
+    labelEl.textContent = ongoing ? 'Being served now' : (upcoming ? 'Next meal' : "Tomorrow's first meal");
+    nameEl.textContent = meal.name;
+    timeEl.textContent = meal.label;
+  }
+  setInterval(updateNextMeal, 60000);
+
+  // ================= Init =================
+  populateHostelSelect();
+  document.getElementById('todayPill').textContent = new Date().toLocaleDateString('en-IN', { weekday:'long', day:'numeric', month:'long' });
+  updateNextMeal();
+</script>
+
+</body>
+</html>
